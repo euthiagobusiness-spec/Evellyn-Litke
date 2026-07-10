@@ -1,0 +1,8 @@
+.agents/
+.codex/
+.vercel/
+.env*
+*.log
+output/
+local-server.js
+README*.md

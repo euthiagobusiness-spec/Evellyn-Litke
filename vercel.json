@@ -5,15 +5,11 @@
   "rewrites": [
     {
       "source": "/captura",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/upsell",
-      "destination": "/pagina-vendas.html"
-    },
-    {
-      "source": "/obrigado",
-      "destination": "/obrigado.html"
+      "destination": "/pagina-vendas"
     }
   ]
 }
