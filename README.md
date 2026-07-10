@@ -30,7 +30,7 @@ As rotas de upsell e obrigado não aparecem na navegação da página de captura
 
 ## Deploy na Vercel
 
-O arquivo `vercel.json` publica o projeto como site estático e preserva as mesmas rotas usadas no localhost. O arquivo `local-server.js` existe somente para desenvolvimento local e não é usado como função de produção.
+O projeto usa Vite somente na etapa de build para que qualquer nova importação seja reconhecida corretamente pela Vercel como site estático. O arquivo `vercel.json` preserva as mesmas rotas usadas no localhost. O arquivo `local-server.js` existe somente para desenvolvimento local e não é usado como função de produção.
 
 ## Pendências de conteúdo e integrações
 
