@@ -1,0 +1,19 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/captura",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/upsell",
+      "destination": "/pagina-vendas.html"
+    },
+    {
+      "source": "/obrigado",
+      "destination": "/obrigado.html"
+    }
+  ]
+}

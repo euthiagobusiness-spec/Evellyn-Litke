@@ -4,7 +4,6 @@
   "private": true,
   "description": "Funil único com páginas de captura, upsell e obrigado.",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node local-server.js"
   }
 }

@@ -11,6 +11,8 @@ output/
 
 # Dependências, caso sejam instaladas futuramente
 node_modules/
+.vercel/
+.env*
 
 # Arquivos de sistema e editor
 .DS_Store

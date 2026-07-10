@@ -5,13 +5,13 @@ Projeto único com três páginas independentes servidas pelo mesmo localhost.
 ## Iniciar
 
 ```powershell
-npm start
+npm run dev
 ```
 
 O servidor usa `http://127.0.0.1:8000` por padrão. Para escolher outra porta:
 
 ```powershell
-$env:PORT=3000; npm start
+$env:PORT=3000; npm run dev
 ```
 
 ## Rotas
@@ -27,6 +27,10 @@ As rotas de upsell e obrigado não aparecem na navegação da página de captura
 - `index.html`: página de captura
 - `pagina-vendas.html`: página de upsell
 - `obrigado.html`: página de obrigado
+
+## Deploy na Vercel
+
+O arquivo `vercel.json` publica o projeto como site estático e preserva as mesmas rotas usadas no localhost. O arquivo `local-server.js` existe somente para desenvolvimento local e não é usado como função de produção.
 
 ## Pendências de conteúdo e integrações
 
