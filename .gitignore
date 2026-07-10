@@ -1,0 +1,18 @@
+# Arquivos gerados localmente
+*.log
+.localhost*.log
+
+# Evidências e capturas de testes locais
+output/
+
+# Metadados internos do ambiente Codex
+.agents/
+.codex/
+
+# Dependências, caso sejam instaladas futuramente
+node_modules/
+
+# Arquivos de sistema e editor
+.DS_Store
+Thumbs.db
+.vscode/
