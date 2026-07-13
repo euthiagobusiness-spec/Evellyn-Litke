@@ -156,12 +156,28 @@
         min-height: 100svh;
         padding: 34px 24px 106px;
         background:
-          radial-gradient(circle at 78% 34%, var(--photo-glow), transparent 34%),
-          linear-gradient(90deg, rgba(9, 7, 6, 0.93), rgba(9, 7, 6, 0.72) 44%, rgba(9, 7, 6, 0.62)),
-          linear-gradient(180deg, rgba(9, 7, 6, 0.28), rgba(9, 7, 6, 0.98)),
-          url("assets/hero-background.png") center / cover no-repeat;
+          radial-gradient(circle at 76% 38%, var(--photo-glow), transparent 31%),
+          linear-gradient(90deg, rgba(8, 5, 3, 0.96), rgba(14, 8, 5, 0.86) 48%, rgba(27, 13, 6, 0.54)),
+          linear-gradient(180deg, rgba(9, 5, 3, 0.18), rgba(7, 4, 2, 0.94)),
+          url("Logo MRC/Thumbnail MRC.png") center / cover no-repeat;
         color: var(--ivory);
         transition: background 0.8s ease;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        z-index: 0;
+        top: 14%;
+        right: 6%;
+        width: min(44vw, 610px);
+        aspect-ratio: 1;
+        border: 1px solid rgba(215, 154, 91, 0.18);
+        border-radius: 50%;
+        box-shadow:
+          0 0 0 34px rgba(188, 105, 43, 0.035),
+          0 0 110px rgba(193, 83, 20, 0.2);
+        pointer-events: none;
       }
 
       .hero::after {
@@ -170,9 +186,9 @@
         inset: 0;
         pointer-events: none;
         background-image:
-          linear-gradient(rgba(228, 210, 184, 0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(228, 210, 184, 0.08) 1px, transparent 1px);
-        background-size: 116px 116px;
+          linear-gradient(rgba(228, 210, 184, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(228, 210, 184, 0.035) 1px, transparent 1px);
+        background-size: 132px 132px;
         mask-image: linear-gradient(to bottom, black, transparent 78%);
       }
 
@@ -246,21 +262,62 @@
 
       .hero-visual {
         position: relative;
+        isolation: isolate;
+        padding: 12px 8px 0;
+      }
+
+      .hero-visual::before {
+        content: "MRC";
+        position: absolute;
+        z-index: -1;
+        top: -54px;
+        right: -58px;
+        color: rgba(204, 139, 80, 0.11);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(8rem, 15vw, 13rem);
+        font-weight: 500;
+        letter-spacing: -0.16em;
+        line-height: 1;
+        text-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+        white-space: nowrap;
+      }
+
+      .hero-signature {
+        position: absolute;
+        z-index: 3;
+        right: -8px;
+        bottom: 34px;
+        display: grid;
+        justify-items: end;
+        color: #e7b78d;
+        filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.5));
+        pointer-events: none;
+      }
+
+      .hero-signature strong {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2.7rem;
+        font-weight: 500;
+        letter-spacing: -0.13em;
+        line-height: 0.9;
+      }
+
+      .hero-signature span {
+        margin-top: 8px;
+        color: rgba(255, 244, 229, 0.72);
+        font-size: 0.63rem;
+        font-weight: 800;
+        letter-spacing: 0.17em;
+        text-transform: uppercase;
       }
 
       .expert-placeholder {
         min-height: 530px;
-        border: 1px solid rgba(228, 210, 184, 0.42);
-        border-radius: 18px;
-        background:
-          linear-gradient(140deg, rgba(244, 239, 231, 0.16), var(--photo-wash)),
-          rgba(20, 14, 10, 0.48);
-        box-shadow:
-          0 0 70px var(--photo-glow),
-          var(--shadow);
-        overflow: hidden;
-        padding: 24px;
-        backdrop-filter: blur(10px);
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        overflow: visible;
+        padding: 0;
         transition:
           background 0.8s ease,
           box-shadow 0.8s ease;
@@ -269,16 +326,31 @@
       .portrait-frame {
         position: relative;
         display: grid;
-        min-height: 370px;
+        min-height: 510px;
         place-items: center;
-        border: 1px dashed rgba(228, 210, 184, 0.38);
-        border-radius: 14px;
+        border: 1px solid rgba(229, 174, 116, 0.48);
+        border-radius: 220px 220px 28px 28px;
         background:
-          linear-gradient(135deg, rgba(112, 63, 61, 0.24), rgba(102, 115, 95, 0.16)),
-          rgba(255, 255, 255, 0.04);
+          radial-gradient(circle at 50% 28%, rgba(210, 97, 24, 0.24), transparent 55%),
+          rgba(38, 17, 8, 0.64);
+        box-shadow:
+          0 0 76px var(--photo-glow),
+          0 34px 70px rgba(0, 0, 0, 0.5),
+          inset 0 0 0 8px rgba(255, 244, 226, 0.025);
         color: rgba(255, 248, 236, 0.7);
         text-align: center;
         overflow: hidden;
+      }
+
+      .portrait-frame::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background:
+          linear-gradient(180deg, transparent 62%, rgba(18, 8, 4, 0.54)),
+          linear-gradient(90deg, rgba(14, 7, 4, 0.12), transparent 18%, transparent 82%, rgba(14, 7, 4, 0.12));
+        pointer-events: none;
       }
 
       .portrait-frame img,
@@ -291,6 +363,7 @@
 
       .portrait-frame img {
         object-position: center 36%;
+        filter: saturate(1.04) contrast(1.02);
       }
 
       .carousel-image {
@@ -312,7 +385,8 @@
       .carousel-progress {
         position: relative;
         height: 4px;
-        margin-top: 16px;
+        width: 72%;
+        margin: 18px auto 0;
         border-radius: 999px;
         background: rgba(228, 210, 184, 0.16);
         overflow: hidden;
@@ -323,7 +397,7 @@
         inset: 0 auto 0 0;
         width: 0;
         border-radius: inherit;
-        background: linear-gradient(90deg, var(--champagne-light), var(--bronze));
+        background: linear-gradient(90deg, #f0c49b, #c26a2a);
         animation: carouselProgress 5.8s linear infinite;
       }
 
@@ -748,6 +822,11 @@
           padding-top: 56px;
         }
 
+        .hero-visual {
+          width: min(100%, 470px);
+          margin: 0 auto;
+        }
+
         .expert-placeholder {
           min-height: 430px;
         }
@@ -784,6 +863,23 @@
         .hero-inner {
           gap: 26px;
           padding-top: 34px;
+        }
+
+        .hero::before {
+          top: auto;
+          right: -34%;
+          bottom: 9%;
+          width: 92vw;
+        }
+
+        .portrait-frame {
+          min-height: 440px;
+          border-radius: 180px 180px 24px 24px;
+        }
+
+        .hero-signature {
+          right: 4px;
+          bottom: 30px;
         }
 
         h1 {
@@ -884,11 +980,15 @@
                 <img
                   class="carousel-image"
                   data-carousel-image="hero"
-                  src="jpg/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
+                  src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
                   alt="Evellyn Litke sorrindo em ensaio profissional"
                 />
               </div>
               <div class="carousel-progress" aria-hidden="true"><span></span></div>
+            </div>
+            <div class="hero-signature" aria-hidden="true">
+              <strong>MRC</strong>
+              <span>Método Referência Cristã</span>
             </div>
           </div>
         </div>
@@ -1142,33 +1242,33 @@
             <div class="photo-rail" aria-label="Galeria de fotos de Evellyn Litke">
               <figure class="is-active" data-carousel-thumb="0">
                 <img
-                  src="jpg/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
+                  src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
                   alt="Evellyn Litke sorrindo em ensaio profissional"
                 />
               </figure>
               <figure data-carousel-thumb="1">
                 <img
-                  src="jpg/c9014031-05fe-4cbc-8b55-edf7de0828d4.png"
+                  src="Imagens/c9014031-05fe-4cbc-8b55-edf7de0828d4.png"
                   alt="Evellyn Litke em retrato sorrindo"
                 />
               </figure>
               <figure data-carousel-thumb="2">
                 <img
-                  src="jpg/f9ca382c-0ea4-4e58-ad82-cb79613ef675.png"
+                  src="Imagens/f9ca382c-0ea4-4e58-ad82-cb79613ef675.png"
                   alt="Evellyn Litke escrevendo em um caderno"
                 />
               </figure>
               <figure data-carousel-thumb="3">
-                <img src="jpg/IMG_0223.JPG" alt="Retrato profissional de Evellyn Litke" />
+                <img src="Imagens/IMG_0223.JPG" alt="Retrato profissional de Evellyn Litke" />
               </figure>
               <figure data-carousel-thumb="4">
-                <img src="jpg/IMG_0224.JPG" alt="Evellyn Litke em foto profissional de corpo inteiro" />
+                <img src="Imagens/IMG_0224.JPG" alt="Evellyn Litke em foto profissional de corpo inteiro" />
               </figure>
               <figure data-carousel-thumb="5">
-                <img src="jpg/IMG_0225.JPG" alt="Evellyn Litke em pose profissional de corpo inteiro" />
+                <img src="Imagens/IMG_0225.JPG" alt="Evellyn Litke em pose profissional de corpo inteiro" />
               </figure>
               <figure data-carousel-thumb="6">
-                <img src="jpg/jhrdbgoau.png" alt="Evellyn Litke sorrindo em estúdio" />
+                <img src="Imagens/jhrdbgoau.png" alt="Evellyn Litke sorrindo em estúdio" />
               </figure>
             </div>
           </div>
@@ -1177,7 +1277,7 @@
             <img
               class="carousel-image"
               data-carousel-image="authority"
-              src="jpg/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
+              src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
               alt="Evellyn Litke sorrindo em ensaio profissional"
             />
           </div>
@@ -1229,65 +1329,61 @@
 
       trackEvent("PageView");
 
-      const carouselSlides = [
+      const carouselImages = document.querySelectorAll("[data-carousel-image]");
+      const carouselThumbs = document.querySelectorAll("[data-carousel-thumb]");
+      const carouselMetadata = [
         {
-          src: "jpg/999cbb24-1371-4e96-a33a-cd900cb7f343.png",
-          alt: "Evellyn Litke sorrindo em ensaio profissional",
           position: "center 36%",
           glow: "rgba(199, 170, 125, 0.3)",
           wash: "rgba(112, 63, 61, 0.16)",
         },
         {
-          src: "jpg/c9014031-05fe-4cbc-8b55-edf7de0828d4.png",
-          alt: "Evellyn Litke em retrato sorrindo",
           position: "center 30%",
           glow: "rgba(214, 178, 126, 0.32)",
           wash: "rgba(141, 111, 77, 0.16)",
         },
         {
-          src: "jpg/f9ca382c-0ea4-4e58-ad82-cb79613ef675.png",
-          alt: "Evellyn Litke escrevendo em um caderno",
           position: "center 25%",
           glow: "rgba(228, 210, 184, 0.26)",
           wash: "rgba(102, 115, 95, 0.14)",
         },
         {
-          src: "jpg/IMG_0223.JPG",
-          alt: "Retrato profissional de Evellyn Litke",
           position: "center 18%",
           glow: "rgba(199, 170, 125, 0.24)",
           wash: "rgba(112, 63, 61, 0.14)",
         },
         {
-          src: "jpg/IMG_0224.JPG",
-          alt: "Evellyn Litke em foto profissional de corpo inteiro",
           position: "center 20%",
           glow: "rgba(213, 146, 79, 0.24)",
           wash: "rgba(141, 111, 77, 0.16)",
         },
         {
-          src: "jpg/IMG_0225.JPG",
-          alt: "Evellyn Litke em pose profissional de corpo inteiro",
           position: "center 20%",
           glow: "rgba(213, 146, 79, 0.25)",
           wash: "rgba(112, 63, 61, 0.15)",
         },
         {
-          src: "jpg/jhrdbgoau.png",
-          alt: "Evellyn Litke sorrindo em estúdio",
           position: "center 35%",
           glow: "rgba(199, 170, 125, 0.31)",
           wash: "rgba(102, 115, 95, 0.13)",
         },
       ];
 
-      const carouselImages = document.querySelectorAll("[data-carousel-image]");
-      const carouselThumbs = document.querySelectorAll("[data-carousel-thumb]");
+      const carouselSlides = Array.from(carouselThumbs, (thumb, index) => {
+        const image = thumb.querySelector("img");
+        return {
+          ...carouselMetadata[index],
+          src: image.currentSrc || image.src,
+          alt: image.alt,
+        };
+      });
+
       const progressBar = document.querySelector(".carousel-progress span");
       const slideDuration = 5800;
       const fadeDuration = 560;
       let activeSlide = 0;
       let carouselTimer;
+      let carouselRequest = 0;
 
       carouselSlides.forEach((slide) => {
         const preload = new Image();
@@ -1304,28 +1400,41 @@
       function setCarouselSlide(nextIndex, source = "auto") {
         const normalizedIndex = (nextIndex + carouselSlides.length) % carouselSlides.length;
         const slide = carouselSlides[normalizedIndex];
+        const request = ++carouselRequest;
+        const nextImage = new Image();
 
-        carouselImages.forEach((image) => image.classList.add("is-changing"));
+        nextImage.onload = () => {
+          if (request !== carouselRequest) return;
+          carouselImages.forEach((image) => image.classList.add("is-changing"));
 
-        window.setTimeout(() => {
-          carouselImages.forEach((image) => {
-            image.src = slide.src;
-            image.alt = slide.alt;
-            image.style.objectPosition = slide.position;
-            image.classList.remove("is-changing");
-          });
+          window.setTimeout(() => {
+            if (request !== carouselRequest) return;
+            carouselImages.forEach((image) => {
+              image.src = slide.src;
+              image.alt = slide.alt;
+              image.style.objectPosition = slide.position;
+              image.classList.remove("is-changing");
+            });
 
-          carouselThumbs.forEach((thumb) => {
-            thumb.classList.toggle("is-active", Number(thumb.dataset.carouselThumb) === normalizedIndex);
-          });
+            carouselThumbs.forEach((thumb) => {
+              thumb.classList.toggle("is-active", Number(thumb.dataset.carouselThumb) === normalizedIndex);
+            });
 
-          document.documentElement.style.setProperty("--photo-glow", slide.glow);
-          document.documentElement.style.setProperty("--photo-wash", slide.wash);
-          document.body.dataset.activePhoto = String(normalizedIndex + 1);
-          activeSlide = normalizedIndex;
-          resetCarouselProgress();
-          trackEvent("CarouselSlide", { index: normalizedIndex + 1, source });
-        }, fadeDuration);
+            document.documentElement.style.setProperty("--photo-glow", slide.glow);
+            document.documentElement.style.setProperty("--photo-wash", slide.wash);
+            document.body.dataset.activePhoto = String(normalizedIndex + 1);
+            activeSlide = normalizedIndex;
+            resetCarouselProgress();
+            trackEvent("CarouselSlide", { index: normalizedIndex + 1, source });
+          }, fadeDuration);
+        };
+
+        nextImage.onerror = () => {
+          carouselImages.forEach((image) => image.classList.remove("is-changing"));
+          trackEvent("CarouselImageError", { index: normalizedIndex + 1, source });
+        };
+
+        nextImage.src = slide.src;
       }
 
       function startCarousel() {
