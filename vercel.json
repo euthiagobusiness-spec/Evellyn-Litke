@@ -2,6 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/obrigado",
+      "destination": "/obrigado-inscricao",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/captura",
@@ -10,6 +17,10 @@
     {
       "source": "/upsell",
       "destination": "/pagina-vendas"
+    },
+    {
+      "source": "/obrigado-inscricao",
+      "destination": "/obrigado"
     }
   ]
 }

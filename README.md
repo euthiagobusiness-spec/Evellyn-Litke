@@ -1,37 +1,46 @@
 # Funil Evellyn Litke
 
-Projeto único com três páginas independentes servidas pelo mesmo localhost.
-
-## Iniciar
-
-```powershell
-npm run dev
-```
-
-O servidor usa `http://127.0.0.1:8000` por padrão. Para escolher outra porta:
-
-```powershell
-$env:PORT=3000; npm run dev
-```
+Projeto único e modular com captura de leads, página de oferta, confirmação de inscrição e documentos legais. O front-end é estático (Vite/Vercel) e toda operação privilegiada acontece em Edge Functions do Supabase.
 
 ## Rotas
 
-- Captura: `http://127.0.0.1:8000/` (também responde em `/captura`)
-- Upsell: `http://127.0.0.1:8000/upsell`
-- Obrigado: `http://127.0.0.1:8000/obrigado`
+- `/` e `/captura`: página de captura
+- `/obrigado-inscricao`: confirmação e acesso ao grupo de WhatsApp
+- `/upsell`: página de oferta
+- `/politica-de-privacidade` e `/termos-de-uso`: documentos legais
 
-As rotas de upsell e obrigado não aparecem na navegação da página de captura. O formulário de captura encaminha o lead diretamente para `/obrigado` após o envio.
+As páginas não são ligadas por uma navegação principal. O formulário só redireciona para `/obrigado-inscricao` depois que o Supabase confirma a gravação.
 
-## Arquivos das páginas
+## Desenvolvimento
 
-- `index.html`: página de captura
-- `pagina-vendas.html`: página de upsell
-- `obrigado.html`: página de obrigado
+```powershell
+npm install
+npm run dev
+```
 
-## Deploy na Vercel
+O servidor local usa `http://127.0.0.1:8000`. Para validar tudo:
 
-O projeto usa Vite somente na etapa de build para que qualquer nova importação seja reconhecida corretamente pela Vercel como site estático. O arquivo `vercel.json` preserva as mesmas rotas usadas no localhost. O arquivo `local-server.js` existe somente para desenvolvimento local e não é usado como função de produção.
+```powershell
+npm run check
+```
 
-## Pendências de conteúdo e integrações
+## Organização
 
-Os placeholders entre colchetes ainda precisam receber os links e conteúdos finais de checkout, política de privacidade, termos e suporte. O grupo oficial de WhatsApp já está configurado.
+- `src/pages`: inicialização de cada página
+- `src/lib`: API, validação, analytics, sessão e carrossel
+- `src/types`: tipos gerados do banco
+- `supabase/migrations`: schema e segurança versionados
+- `supabase/functions`: endpoints seguros de captura e eventos
+- `docs`: arquitetura, setup, LGPD, segmentos e testes
+
+## Configuração
+
+O navegador não recebe `service_role` nem secret key. A URL pública do projeto está centralizada em `src/config.mjs`; uma substituição opcional pode ser feita com `VITE_SUPABASE_URL`, conforme `.env.example`.
+
+Os secrets de backend ficam no Supabase: `SITE_URL`, `ALLOWED_ORIGINS`, `WHATSAPP_GROUP_URL`, `PRIVACY_POLICY_VERSION`, `IP_HASH_SALT` e, opcionalmente, `TURNSTILE_SECRET_KEY`.
+
+Consulte [docs/supabase-setup.md](docs/supabase-setup.md) para implantação completa.
+
+## Pendências comerciais
+
+O checkout e o provedor de pagamento ainda não foram informados. As tabelas de produtos, pedidos, itens, pagamentos e webhooks estão prontas, mas os botões de compra continuam bloqueados pelo placeholder `[LINK DO CHECKOUT]` para evitar um fluxo financeiro incompleto.

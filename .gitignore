@@ -13,6 +13,7 @@ output/
 node_modules/
 .vercel/
 .env*
+!.env.example
 dist/
 
 # Arquivos de sistema e editor

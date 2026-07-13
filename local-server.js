@@ -15,6 +15,12 @@ const pageRoutes = new Map([
   ["/upsell/", "pagina-vendas.html"],
   ["/obrigado", "obrigado.html"],
   ["/obrigado/", "obrigado.html"],
+  ["/obrigado-inscricao", "obrigado.html"],
+  ["/obrigado-inscricao/", "obrigado.html"],
+  ["/politica-de-privacidade", "politica-de-privacidade.html"],
+  ["/politica-de-privacidade/", "politica-de-privacidade.html"],
+  ["/termos-de-uso", "termos-de-uso.html"],
+  ["/termos-de-uso/", "termos-de-uso.html"],
 ]);
 
 const contentTypes = {
@@ -25,6 +31,7 @@ const contentTypes = {
   ".jpeg": "image/jpeg",
   ".jpg": "image/jpeg",
   ".js": "text/javascript; charset=utf-8",
+  ".mjs": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".png": "image/png",
   ".svg": "image/svg+xml",
@@ -78,5 +85,5 @@ server.listen(port, host, () => {
   console.log(`Funil disponível em http://${host}:${port}`);
   console.log(`Captura:  http://${host}:${port}/`);
   console.log(`Upsell:   http://${host}:${port}/upsell`);
-  console.log(`Obrigado: http://${host}:${port}/obrigado`);
+  console.log(`Obrigado: http://${host}:${port}/obrigado-inscricao`);
 });

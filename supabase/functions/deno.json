@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.110.2",
+    "libphonenumber-js/max": "npm:libphonenumber-js@1.13.8/max"
+  }
+}

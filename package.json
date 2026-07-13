@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node local-server.js",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test",
+    "check": "npm run test && npm run build"
   },
   "devDependencies": {
     "vite": "8.1.4"
