@@ -207,6 +207,11 @@
         max-width: 780px;
       }
 
+      .hero h1 {
+        font-size: clamp(2rem, 3.7vw, 3.2rem);
+        line-height: 1.02;
+      }
+
       .event-strip {
         display: flex;
         flex-wrap: wrap;
@@ -334,31 +339,6 @@
         display: block;
         color: #fff8ec;
         font-size: 1.4rem;
-      }
-
-      .visual-stats {
-        display: grid;
-        gap: 10px;
-        margin-top: 18px;
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .stat {
-        border: 1px solid rgba(228, 210, 184, 0.18);
-        border-radius: var(--radius);
-        background: rgba(255, 255, 255, 0.06);
-        padding: 13px;
-      }
-
-      .stat b {
-        display: block;
-        color: #fff8ec;
-        font-size: 1.4rem;
-      }
-
-      .stat span {
-        color: rgba(255, 248, 236, 0.65);
-        font-size: 0.82rem;
       }
 
       .curve {
@@ -817,7 +797,6 @@
         .grid-4,
         .grid-3,
         .grid-2,
-        .visual-stats,
         .photo-rail {
           grid-template-columns: 1fr;
         }
@@ -871,10 +850,14 @@
         <div class="hero-inner section-inner">
           <div class="hero-copy">
             <p class="eyebrow">Os 3 Passos para Sair do Anonimato Digital — inscrições abertas</p>
-            <h1>Os 3 passos para sair do anonimato digital</h1>
+            <h1>
+              O Fim do Anonimato Digital: Como Cristãos Estão Construindo Autoridade e Atraindo
+              Oportunidades na Internet, Sem Abrir Mão dos Seus Valores.
+            </h1>
             <p class="lead">
-              Descubra como cristãos podem construir autoridade, influência e oportunidades na internet
-              sem abrir mão dos seus princípios e valores.
+              Você tem conhecimento, experiência e um chamado que pode transformar vidas, mas seu perfil
+              ainda parece invisível. A verdade é dura: não é sua mensagem que está errada, é o seu
+              posicionamento.
             </p>
 
             <div class="event-strip" aria-label="Informações do evento">
@@ -899,156 +882,160 @@
                 />
               </div>
               <div class="carousel-progress" aria-hidden="true"><span></span></div>
-              <div class="visual-stats">
-                <div class="stat">
-                  <b>90 dias</b>
-                  <span>Direção para autoridade e posicionamento</span>
-                </div>
-                <div class="stat">
-                  <b>1 método</b>
-                  <span>Conteúdo, marca pessoal e estratégia</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
         <div class="curve" aria-hidden="true"></div>
       </section>
 
-      <section class="section intro" aria-labelledby="promessa">
-        <div class="section-inner">
-          <div class="promise">
-            <p class="eyebrow">Promessa do evento</p>
-            <h2 id="promessa">Existe um caminho para ser reconhecido pelo que você sabe</h2>
-            <p>
-              Você não precisa escolher entre ter estratégia digital e preservar seus princípios.
-              Neste encontro, Evellyn vai apresentar três passos para transformar conhecimento,
-              experiência e propósito em posicionamento, conteúdo e marca pessoal com princípios.
+      <section class="section form-section" id="inscricao" aria-labelledby="form-title">
+        <div class="section-inner form-shell">
+          <div>
+            <p class="eyebrow">Inscrição gratuita</p>
+            <h2 id="form-title">Garanta sua vaga no evento Os 3 Passos para Sair do Anonimato Digital</h2>
+            <p class="lead">
+              Preencha seus dados e confirme sua inscrição. Em seguida, você será direcionado para a
+              página de confirmação, onde poderá entrar no grupo oficial de WhatsApp.
             </p>
+            <ul class="check-list">
+              <li><span class="check">✓</span><span>Evento gratuito, online e ao vivo.</span></li>
+              <li><span class="check">✓</span><span>Conteúdo focado em autoridade, posicionamento e marca pessoal.</span></li>
+              <li><span class="check">✓</span><span>Comunicação profissional, com princípios e sem promessas exageradas.</span></li>
+            </ul>
           </div>
 
-          <div class="grid-4">
+          <div class="form-card">
+            <form data-next-path="/obrigado">
+              <label>
+                Nome completo
+                <input type="text" name="nome" placeholder="Digite seu nome completo" autocomplete="name" required />
+              </label>
+              <label>
+                Melhor e-mail
+                <input type="email" name="email" placeholder="Digite seu melhor e-mail" autocomplete="email" required />
+              </label>
+              <label>
+                WhatsApp
+                <input type="tel" name="whatsapp" placeholder="DDD + número" autocomplete="tel" required />
+              </label>
+              <label>
+                Você já empreende na internet?
+                <select name="momento" required>
+                  <option value="">Selecione uma opção</option>
+                  <option>Sim</option>
+                  <option>Ainda não</option>
+                  <option>Estou começando</option>
+                </select>
+              </label>
+              <label>
+                Qual melhor descreve seu momento?
+                <select name="objetivo" required>
+                  <option value="">Selecione uma opção</option>
+                  <option>Quero me posicionar</option>
+                  <option>Quero criar conteúdo com estratégia</option>
+                  <option>Quero monetizar meu conhecimento</option>
+                  <option>Quero fortalecer minha autoridade</option>
+                </select>
+              </label>
+              <button class="button" type="submit" data-track="LeadFormSubmit">
+                Confirmar minha inscrição gratuita
+              </button>
+              <p class="submit-status" aria-live="polite"></p>
+              <p class="form-note">
+                Seus dados serão usados para comunicações sobre o evento e orientações de acesso.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro" aria-labelledby="identificacao">
+        <div class="section-inner">
+          <div class="promise">
+            <p class="eyebrow">Esta aula é para você</p>
+            <h2 id="identificacao">Esta aula é para você que se identifica com pelo menos um destes pontos:</h2>
+          </div>
+
+          <div class="grid-2">
             <article class="card">
-              <span class="icon">1</span>
-              <h3>Clareza de mensagem</h3>
-              <p>Entenda o que comunicar para deixar de parecer apenas mais um perfil.</p>
+              <span class="icon">✓</span>
+              <h3>Seu valor ainda é pouco reconhecido</h3>
+              <p>
+                Você tem conhecimento, dons ou experiência — mas sente que pouquíssimas pessoas sabem o
+                valor real do que você faz.
+              </p>
             </article>
             <article class="card">
-              <span class="icon">2</span>
-              <h3>Posicionamento</h3>
-              <p>Organize seu conhecimento em uma marca pessoal coerente e profissional.</p>
+              <span class="icon">✓</span>
+              <h3>Conteúdo não vira oportunidade</h3>
+              <p>
+                Você posta com constância — cria conteúdo, recebe curtidas… mas isso não vira oportunidade
+                nem renda.
+              </p>
             </article>
             <article class="card">
-              <span class="icon">3</span>
-              <h3>Autoridade digital</h3>
-              <p>Aprenda a criar percepção de valor antes de tentar vender qualquer coisa.</p>
+              <span class="icon">✓</span>
+              <h3>Você quer crescer com ética</h3>
+              <p>
+                Você já tentou fórmulas prontas e “hacks” — e sabe que crescer de forma ética, atraindo o
+                público certo, é o único caminho sustentável.
+              </p>
             </article>
             <article class="card">
-              <span class="icon">4</span>
-              <h3>Princípios e método</h3>
-              <p>Construa presença com ética, consistência, excelência e direção.</p>
+              <span class="icon">✓</span>
+              <h3>Você quer reger seu próprio tempo</h3>
+              <p>
+                Transforme seu chamado em um negócio digital sólido, que constrói legado e não apenas likes.
+              </p>
             </article>
           </div>
 
           <div class="not-for">
             <span class="icon">!</span>
-            Este evento não é sobre promessa de dinheiro fácil ou atalhos sem consistência.
+            Esta aula não é para quem busca fórmula mágica, riqueza da noite para o dia ou estratégias que
+            exigem abrir mão dos seus valores. Aqui é estratégia real, com ética e consistência.
           </div>
         </div>
       </section>
 
-      <section class="section" aria-labelledby="dor">
-        <div class="section-inner split">
-          <div>
-            <p class="eyebrow">A dor central</p>
-            <h2 id="dor">Você sabe que pode ajudar pessoas, mas quase ninguém conhece o seu trabalho?</h2>
-            <p>
-              Talvez você já tenha tentado postar, divulgar seus serviços ou falar sobre o que faz,
-              mas ainda sente que sua mensagem não alcança as pessoas certas.
-            </p>
-            <p>
-              O problema pode não estar no seu potencial. Pode estar na falta de posicionamento,
-              clareza de mensagem e estratégia de autoridade.
-            </p>
-            <a class="button" href="#inscricao" data-track="CTA_Click_Dor">Quero sair da invisibilidade</a>
-          </div>
-
-          <div class="grid-2">
-            <article class="card">
-              <span class="icon">?</span>
-              <h3>Você tem conteúdo, mas falta direção</h3>
-              <p>O esforço existe, mas a comunicação ainda não cria reconhecimento.</p>
-            </article>
-            <article class="card">
-              <span class="icon">?</span>
-              <h3>Você se sente invisível no digital</h3>
-              <p>As pessoas certas ainda não entendem com clareza o que você entrega.</p>
-            </article>
-            <article class="card">
-              <span class="icon">?</span>
-              <h3>Você evita parecer apelativo</h3>
-              <p>Quer crescer com seriedade, sem teatralizar sua fé ou forçar autoridade.</p>
-            </article>
-            <article class="card">
-              <span class="icon">?</span>
-              <h3>Você precisa de método</h3>
-              <p>Invisibilidade digital não se resolve com mais postagem aleatória.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section dark-band" aria-labelledby="aprendizado">
-        <div class="section-inner split">
-          <div class="mock-device" aria-label="Informações do evento ao vivo">
-            <div class="screen desktop">
-              <div class="screen-content">
-                <strong>Os 3 Passos para Sair do Anonimato Digital</strong>
-                <span>Evento gratuito e ao vivo</span>
-              </div>
-            </div>
-            <div class="screen mobile">
-              <div class="screen-content">
-                <strong>Ao vivo</strong>
-                <span>26 de julho</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <p class="eyebrow">O que você vai aprender</p>
-            <h2 id="aprendizado">Na aula gratuita, você vai perceber como autoridade nasce de clareza e constância</h2>
-            <ul class="check-list">
-              <li><span class="check">✓</span><span>Como identificar a mensagem que você precisa comunicar no digital.</span></li>
-              <li><span class="check">✓</span><span>Como construir uma marca pessoal cristã com profissionalismo e coerência.</span></li>
-              <li><span class="check">✓</span><span>Como criar conteúdos que fortalecem percepção de valor, e não apenas engajamento vazio.</span></li>
-              <li><span class="check">✓</span><span>Como posicionar seu conhecimento para atrair as pessoas certas sem parecer forçado.</span></li>
-              <li><span class="check">✓</span><span>Como iniciar uma jornada de autoridade digital com foco nos próximos 90 dias.</span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="para-quem">
+      <section class="section" aria-labelledby="passos">
         <div class="section-inner">
-          <p class="eyebrow">Para quem é</p>
-          <h2 id="para-quem">Esta aula é para cristãos que desejam empreender com estratégia, ética e excelência</h2>
+          <div class="promise">
+            <p class="eyebrow">O que você vai aprender</p>
+            <h2 id="passos">Os 3 Passos para Sair do Anonimato Digital</h2>
+          </div>
+
           <div class="grid-3">
             <article class="card">
-              <span class="icon">✓</span>
-              <h3>Você quer se posicionar</h3>
-              <p>Tem conhecimento ou experiência, mas ainda não sabe como comunicar isso com clareza.</p>
+              <span class="icon">1</span>
+              <h3>Por que “vender mais” não resolve nada</h3>
+              <p>
+                Descubra por que postar de forma aleatória está afastando você do público certo e deixando
+                você exausto, sem retorno proporcional.
+              </p>
             </article>
             <article class="card">
-              <span class="icon">✓</span>
-              <h3>Você quer construir autoridade</h3>
-              <p>Deseja ser lembrado pelo que sabe, e não apenas aparecer por aparecer.</p>
+              <span class="icon">2</span>
+              <h3>Onde sua autoridade está se perdendo</h3>
+              <p>
+                Conheça os erros invisíveis na comunicação que fazem pessoas qualificadas ignorarem o que
+                você tem de mais valioso: seu conhecimento.
+              </p>
             </article>
             <article class="card">
-              <span class="icon">✓</span>
-              <h3>Você quer monetizar com princípios</h3>
-              <p>Busca oportunidades no digital sem abrir mão de valores, verdade e responsabilidade.</p>
+              <span class="icon">3</span>
+              <h3>O método para se tornar a referência do seu nicho</h3>
+              <p>
+                Saia da multidão de “criadores de conteúdo” e ocupe um lugar de autoridade, unindo marca
+                pessoal e conteúdo estratégico para gerar oportunidades reais em até 90 dias.
+              </p>
             </article>
+          </div>
+
+          <div class="not-for">
+            <span class="icon">✓</span>
+            Além dos três passos, você sairá da aula com um checklist prático de posicionamento para aplicar
+            ainda esta semana.
           </div>
         </div>
       </section>
@@ -1186,67 +1173,6 @@
               src="jpg/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
               alt="Evellyn Litke sorrindo em ensaio profissional"
             />
-          </div>
-        </div>
-      </section>
-
-      <section class="section form-section" id="inscricao" aria-labelledby="form-title">
-        <div class="section-inner form-shell">
-          <div>
-            <p class="eyebrow">Inscrição gratuita</p>
-            <h2 id="form-title">Garanta sua vaga no evento Os 3 Passos para Sair do Anonimato Digital</h2>
-            <p class="lead">
-              Preencha seus dados para receber as informações de acesso. Depois do cadastro, o lead será
-              direcionado para a Página de Obrigado e convidado a entrar no grupo oficial de WhatsApp.
-            </p>
-            <ul class="check-list">
-              <li><span class="check">✓</span><span>Evento gratuito, online e ao vivo.</span></li>
-              <li><span class="check">✓</span><span>Conteúdo focado em autoridade, posicionamento e marca pessoal.</span></li>
-              <li><span class="check">✓</span><span>Comunicação profissional, com princípios e sem promessas exageradas.</span></li>
-            </ul>
-          </div>
-
-          <div class="form-card">
-            <form data-next-path="/obrigado">
-              <label>
-                Nome completo
-                <input type="text" name="nome" placeholder="Digite seu nome completo" autocomplete="name" required />
-              </label>
-              <label>
-                Melhor e-mail
-                <input type="email" name="email" placeholder="Digite seu melhor e-mail" autocomplete="email" required />
-              </label>
-              <label>
-                WhatsApp
-                <input type="tel" name="whatsapp" placeholder="DDD + número" autocomplete="tel" required />
-              </label>
-              <label>
-                Você já empreende na internet?
-                <select name="momento" required>
-                  <option value="">Selecione uma opção</option>
-                  <option>Sim</option>
-                  <option>Ainda não</option>
-                  <option>Estou começando</option>
-                </select>
-              </label>
-              <label>
-                Qual melhor descreve seu momento?
-                <select name="objetivo" required>
-                  <option value="">Selecione uma opção</option>
-                  <option>Quero me posicionar</option>
-                  <option>Quero criar conteúdo com estratégia</option>
-                  <option>Quero monetizar meu conhecimento</option>
-                  <option>Quero fortalecer minha autoridade</option>
-                </select>
-              </label>
-              <button class="button" type="submit" data-track="LeadFormSubmit">
-                Confirmar minha inscrição gratuita
-              </button>
-              <p class="submit-status" aria-live="polite"></p>
-              <p class="form-note">
-                Seus dados serão usados para comunicações sobre o evento e orientações de acesso.
-              </p>
-            </form>
           </div>
         </div>
       </section>
