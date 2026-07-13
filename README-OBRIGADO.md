@@ -11,7 +11,6 @@ Abra `obrigado.html` no navegador.
 
 Substitua estes placeholders quando tiver as informações finais:
 
-- `[LINK DO GRUPO]`
 - `[NOME DO EVENTO]`
 - `[DATA]`
 - `[HORÁRIO]`

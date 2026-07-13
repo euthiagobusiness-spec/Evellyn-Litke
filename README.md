@@ -34,4 +34,4 @@ O projeto usa Vite somente na etapa de build para que qualquer nova importação
 
 ## Pendências de conteúdo e integrações
 
-Os placeholders entre colchetes ainda precisam receber os links e conteúdos finais, incluindo checkout, grupo de WhatsApp, política de privacidade, termos e suporte.
+Os placeholders entre colchetes ainda precisam receber os links e conteúdos finais de checkout, política de privacidade, termos e suporte. O grupo oficial de WhatsApp já está configurado.
