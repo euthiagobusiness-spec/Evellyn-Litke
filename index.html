@@ -285,30 +285,38 @@
       .hero-signature {
         position: absolute;
         z-index: 3;
-        right: -8px;
-        bottom: 34px;
+        right: 18px;
+        bottom: 28px;
         display: grid;
-        justify-items: end;
+        min-width: 200px;
+        justify-items: center;
+        border: 1px solid rgba(232, 183, 141, 0.22);
+        border-radius: 12px;
+        background: rgba(19, 9, 5, 0.72);
         color: #e7b78d;
         filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.5));
+        padding: 10px 14px 9px;
         pointer-events: none;
       }
 
       .hero-signature strong {
         font-family: Georgia, "Times New Roman", serif;
-        font-size: 2.7rem;
+        font-size: 2.1rem;
         font-weight: 500;
-        letter-spacing: -0.13em;
-        line-height: 0.9;
+        letter-spacing: 0.04em;
+        line-height: 1;
       }
 
       .hero-signature span {
-        margin-top: 8px;
+        margin-top: 6px;
         color: rgba(255, 244, 229, 0.72);
-        font-size: 0.63rem;
+        font-size: 0.58rem;
         font-weight: 800;
-        letter-spacing: 0.17em;
+        letter-spacing: 0.1em;
+        line-height: 1.35;
+        text-align: center;
         text-transform: uppercase;
+        white-space: nowrap;
       }
 
       .expert-placeholder {
@@ -759,6 +767,31 @@
         padding: 10px 12px;
       }
 
+      .consent-check {
+        display: grid;
+        align-items: start;
+        gap: 10px;
+        grid-template-columns: 18px 1fr;
+        margin-top: 2px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        line-height: 1.45;
+      }
+
+      .consent-check input {
+        width: 18px;
+        height: 18px;
+        min-height: 18px;
+        margin: 2px 0 0;
+        padding: 0;
+        accent-color: #c4834c;
+      }
+
+      .consent-check a {
+        color: var(--champagne-light);
+        font-weight: 800;
+      }
+
       .form-note {
         margin: 2px 0 0;
         color: rgba(255, 248, 236, 0.62);
@@ -878,8 +911,9 @@
         }
 
         .hero-signature {
-          right: 4px;
-          bottom: 30px;
+          right: 12px;
+          bottom: 24px;
+          min-width: 188px;
         }
 
         h1 {
@@ -1044,6 +1078,13 @@
                   <option>Quero fortalecer minha autoridade</option>
                 </select>
               </label>
+              <label class="consent-check">
+                <input type="checkbox" name="aceite_legal" required />
+                <span>
+                  Li e concordo com a <a href="/politica-de-privacidade" target="_blank" rel="noopener">Política de Privacidade</a>
+                  e os <a href="/termos-de-uso" target="_blank" rel="noopener">Termos de Uso</a>.
+                </span>
+              </label>
               <button class="button" type="submit" data-track="LeadFormSubmit">
                 Confirmar minha inscrição gratuita
               </button>
@@ -1203,8 +1244,8 @@
             </article>
             <article class="card pending-card">
               <span class="pending-tag">Pendente 09</span>
-              <h3>[POLÍTICA DE PRIVACIDADE]</h3>
-              <p>URL do documento para rodapé e consentimento.</p>
+              <h3>Política de Privacidade configurada</h3>
+              <p>Documento publicado e conectado ao rodapé e ao consentimento do formulário.</p>
             </article>
             <article class="card pending-card">
               <span class="pending-tag">Pendente 10</span>
@@ -1239,37 +1280,14 @@
               Seu trabalho é direcionado a profissionais, prestadores de serviço, criadores e empreendedores
               que desejam crescer na internet sem abrir mão da fé, da integridade e dos seus valores.
             </p>
-            <div class="photo-rail" aria-label="Galeria de fotos de Evellyn Litke">
-              <figure class="is-active" data-carousel-thumb="0">
-                <img
-                  src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
-                  alt="Evellyn Litke sorrindo em ensaio profissional"
-                />
-              </figure>
-              <figure data-carousel-thumb="1">
-                <img
-                  src="Imagens/c9014031-05fe-4cbc-8b55-edf7de0828d4.png"
-                  alt="Evellyn Litke em retrato sorrindo"
-                />
-              </figure>
-              <figure data-carousel-thumb="2">
-                <img
-                  src="Imagens/f9ca382c-0ea4-4e58-ad82-cb79613ef675.png"
-                  alt="Evellyn Litke escrevendo em um caderno"
-                />
-              </figure>
-              <figure data-carousel-thumb="3">
-                <img src="Imagens/IMG_0223.JPG" alt="Retrato profissional de Evellyn Litke" />
-              </figure>
-              <figure data-carousel-thumb="4">
-                <img src="Imagens/IMG_0224.JPG" alt="Evellyn Litke em foto profissional de corpo inteiro" />
-              </figure>
-              <figure data-carousel-thumb="5">
-                <img src="Imagens/IMG_0225.JPG" alt="Evellyn Litke em pose profissional de corpo inteiro" />
-              </figure>
-              <figure data-carousel-thumb="6">
-                <img src="Imagens/jhrdbgoau.png" alt="Evellyn Litke sorrindo em estúdio" />
-              </figure>
+            <div class="carousel-sources" hidden aria-hidden="true">
+              <img data-carousel-source src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png" alt="Evellyn Litke sorrindo em ensaio profissional" />
+              <img data-carousel-source src="Imagens/c9014031-05fe-4cbc-8b55-edf7de0828d4.png" alt="Evellyn Litke em retrato sorrindo" />
+              <img data-carousel-source src="Imagens/f9ca382c-0ea4-4e58-ad82-cb79613ef675.png" alt="Evellyn Litke escrevendo em um caderno" />
+              <img data-carousel-source src="Imagens/IMG_0223.JPG" alt="Retrato profissional de Evellyn Litke" />
+              <img data-carousel-source src="Imagens/IMG_0224.JPG" alt="Evellyn Litke em foto profissional de corpo inteiro" />
+              <img data-carousel-source src="Imagens/IMG_0225.JPG" alt="Evellyn Litke em pose profissional de corpo inteiro" />
+              <img data-carousel-source src="Imagens/jhrdbgoau.png" alt="Evellyn Litke sorrindo em estúdio" />
             </div>
           </div>
 
@@ -1305,8 +1323,8 @@
       </p>
       <p>
         Copyright © 2026 Evellyn Litke - Todos os direitos reservados.
-        <a href="[POLÍTICA DE PRIVACIDADE]">Política de Privacidade</a> |
-        <a href="[TERMOS DE USO]">Termos de Uso</a>
+        <a href="/politica-de-privacidade">Política de Privacidade</a> |
+        <a href="/termos-de-uso">Termos de Uso</a>
       </p>
     </footer>
 
@@ -1330,7 +1348,7 @@
       trackEvent("PageView");
 
       const carouselImages = document.querySelectorAll("[data-carousel-image]");
-      const carouselThumbs = document.querySelectorAll("[data-carousel-thumb]");
+      const carouselSources = document.querySelectorAll("[data-carousel-source]");
       const carouselMetadata = [
         {
           position: "center 36%",
@@ -1369,8 +1387,7 @@
         },
       ];
 
-      const carouselSlides = Array.from(carouselThumbs, (thumb, index) => {
-        const image = thumb.querySelector("img");
+      const carouselSlides = Array.from(carouselSources, (image, index) => {
         return {
           ...carouselMetadata[index],
           src: image.currentSrc || image.src,
@@ -1416,10 +1433,6 @@
               image.classList.remove("is-changing");
             });
 
-            carouselThumbs.forEach((thumb) => {
-              thumb.classList.toggle("is-active", Number(thumb.dataset.carouselThumb) === normalizedIndex);
-            });
-
             document.documentElement.style.setProperty("--photo-glow", slide.glow);
             document.documentElement.style.setProperty("--photo-wash", slide.wash);
             document.body.dataset.activePhoto = String(normalizedIndex + 1);
@@ -1443,13 +1456,6 @@
           setCarouselSlide(activeSlide + 1);
         }, slideDuration);
       }
-
-      carouselThumbs.forEach((thumb) => {
-        thumb.addEventListener("click", () => {
-          setCarouselSlide(Number(thumb.dataset.carouselThumb), "thumb");
-          startCarousel();
-        });
-      });
 
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         startCarousel();
