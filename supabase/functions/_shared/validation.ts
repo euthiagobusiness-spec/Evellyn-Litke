@@ -71,7 +71,7 @@ function trackingText(value: unknown, field: string, maxLength: number): string 
 function metadata(input: unknown): Record<string, string> {
   if (!input || typeof input !== "object" || Array.isArray(input)) return {};
   const value = input as Record<string, unknown>;
-  const allowed = ["locale", "timezone", "viewport"];
+  const allowed = ["locale", "timezone", "viewport", "fbc", "fbp"];
   return Object.fromEntries(
     allowed.flatMap((key) => {
       const item = value[key];

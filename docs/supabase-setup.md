@@ -31,6 +31,14 @@ As funções são públicas porque recebem visitantes anônimos, mas aplicam all
 
 ## Secrets obrigatórios
 
+Para conversões server-side do Meta Ads, configure também no painel do Supabase:
+
+- `META_PIXEL_ID`: ID do Pixel.
+- `META_CONVERSIONS_API_TOKEN`: token da Conversions API.
+- `META_GRAPH_API_VERSION` (opcional): versão da Graph API; padrão `v20.0`.
+
+O `create-lead` envia o evento `Lead` somente quando há consentimento de marketing. E-mail, telefone, nome, país e referência pública são normalizados e submetidos com SHA-256; o token nunca chega ao navegador.
+
 - `SITE_URL`: URL principal de produção.
 - `ALLOWED_ORIGINS`: URLs adicionais separadas por vírgula.
 - `WHATSAPP_GROUP_URL`: convite oficial.

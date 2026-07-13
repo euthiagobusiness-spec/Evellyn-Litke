@@ -37,7 +37,7 @@ npm run check
 
 O navegador não recebe `service_role` nem secret key. A URL pública do projeto está centralizada em `src/config.mjs`; uma substituição opcional pode ser feita com `VITE_SUPABASE_URL`, conforme `.env.example`.
 
-Os secrets de backend ficam no Supabase: `SITE_URL`, `ALLOWED_ORIGINS`, `WHATSAPP_GROUP_URL`, `PRIVACY_POLICY_VERSION`, `IP_HASH_SALT` e, opcionalmente, `TURNSTILE_SECRET_KEY`.
+Os secrets de backend ficam no Supabase: `SITE_URL`, `ALLOWED_ORIGINS`, `WHATSAPP_GROUP_URL`, `PRIVACY_POLICY_VERSION`, `IP_HASH_SALT`, `META_PIXEL_ID`, `META_CONVERSIONS_API_TOKEN` e, opcionalmente, `TURNSTILE_SECRET_KEY`/`META_GRAPH_API_VERSION`.
 
 Consulte [docs/supabase-setup.md](docs/supabase-setup.md) para implantação completa.
 

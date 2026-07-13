@@ -15,6 +15,7 @@ import {
 } from "../_shared/http.ts";
 import { verifyTurnstile } from "../_shared/turnstile.ts";
 import { validateLead } from "../_shared/validation.ts";
+import { sendMetaLeadEvent } from "../_shared/meta-capi.ts";
 
 Deno.serve(async (request: Request) => {
   if (request.method === "OPTIONS") {
@@ -117,6 +118,26 @@ Deno.serve(async (request: Request) => {
         code: error?.code ?? "missing_result",
       });
       throw new Error("database_write_failed");
+    }
+
+    if (payload.consentMarketing) {
+      try {
+        await sendMetaLeadEvent({
+          email: payload.email,
+          phoneE164: payload.phoneE164,
+          name: payload.name,
+          countryIso: payload.countryIso,
+          userAgent,
+          publicReference: data.lead_reference,
+          sourcePath: payload.landingPath ?? "/captura",
+          fbc: payload.metadata.fbc,
+          fbp: payload.metadata.fbp,
+        });
+      } catch (metaError) {
+        console.error("meta-capi delivery failed", {
+          code: metaError instanceof Error ? metaError.message : "unknown",
+        });
+      }
     }
 
     return jsonResponse(request, 200, {

@@ -89,6 +89,10 @@ function attribution() {
   };
 }
 
+function cookieValue(name) {
+  return document.cookie.split("; ").find((entry) => entry.startsWith(`${name}=`))?.split("=").slice(1).join("=") || null;
+}
+
 function humanError(error) {
   if (!(error instanceof FunnelApiError)) {
     return "Não foi possível concluir agora. Tente novamente.";
@@ -186,6 +190,8 @@ if (form) {
           locale: navigator.language,
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           viewport: `${window.innerWidth}x${window.innerHeight}`,
+          fbc: cookieValue("_fbc"),
+          fbp: cookieValue("_fbp"),
         },
       });
 
