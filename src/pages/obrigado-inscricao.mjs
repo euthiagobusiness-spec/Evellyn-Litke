@@ -17,11 +17,7 @@ setWhatsappUrl(SITE_CONFIG.whatsappGroupUrl);
 trackEvent("thank_you_page_view", { page: "obrigado_inscricao" });
 
 if (leadReference) {
-  trackFunnelEvent(
-    "thank_you_registration_viewed",
-    leadReference,
-    sessionId,
-  )
+  trackFunnelEvent("thank_you_registration_viewed", leadReference, sessionId)
     .then((result) => {
       if (result?.whatsappUrl) setWhatsappUrl(result.whatsappUrl);
     })
@@ -44,41 +40,20 @@ whatsappLinks.forEach((link) => {
   });
 });
 
-const dateSection = document.querySelector(".date-band");
-if ("IntersectionObserver" in window && dateSection) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
-        trackEvent("event_date_section_view", { page: "obrigado_inscricao" });
-        observer.disconnect();
-      }
-    },
-    { threshold: 0.45 },
-  );
-  observer.observe(dateSection);
-}
-
-const carouselImages = Array.from(
-  document.querySelectorAll("[data-carousel-image]"),
-);
-const dots = Array.from(document.querySelectorAll(".carousel-dots span"));
+const carouselImages = Array.from(document.querySelectorAll("[data-carousel-image]"));
 let activeSlide = 0;
 
-function setCarouselSlide(nextSlide) {
-  if (!dots.length) return;
-  activeSlide = nextSlide % dots.length;
-  document.body.dataset.carouselTheme = String(activeSlide);
-  carouselImages.forEach((image, index) => {
-    image.classList.toggle("is-active", index % dots.length === activeSlide);
-  });
-  dots.forEach((dot, index) => {
-    dot.classList.toggle("is-active", index === activeSlide);
+function setCarouselSlide(index) {
+  if (!carouselImages.length) return;
+  activeSlide = index % carouselImages.length;
+  carouselImages.forEach((image, imageIndex) => {
+    image.classList.toggle("is-active", imageIndex === activeSlide);
   });
 }
 
 if (
-  dots.length > 1 &&
+  carouselImages.length > 1 &&
   !window.matchMedia("(prefers-reduced-motion: reduce)").matches
 ) {
-  window.setInterval(() => setCarouselSlide(activeSlide + 1), 4_600);
+  window.setInterval(() => setCarouselSlide(activeSlide + 1), 4_800);
 }

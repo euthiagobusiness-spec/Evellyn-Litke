@@ -195,7 +195,11 @@ export type Database = {
       }
       leads: {
         Row: {
+          audience_size: string | null
+          biggest_challenge: string | null
           business_stage: string | null
+          country_calling_code: string | null
+          country_iso: string | null
           created_at: string
           email: string
           email_normalized: string | null
@@ -204,12 +208,15 @@ export type Database = {
           gclid: string | null
           goal: string | null
           id: string
+          instagram_handle: string | null
           landing_path: string | null
           lead_status: Database["public"]["Enums"]["lead_status"]
           name: string
+          niche: string | null
           phone: string
           phone_e164: string
           public_reference: string
+          preferred_contact_period: string | null
           referrer: string | null
           updated_at: string
           utm_campaign: string | null
@@ -220,7 +227,11 @@ export type Database = {
           whatsapp_clicked_at: string | null
         }
         Insert: {
+          audience_size?: string | null
+          biggest_challenge?: string | null
           business_stage?: string | null
+          country_calling_code?: string | null
+          country_iso?: string | null
           created_at?: string
           email: string
           email_normalized?: string | null
@@ -229,12 +240,15 @@ export type Database = {
           gclid?: string | null
           goal?: string | null
           id?: string
+          instagram_handle?: string | null
           landing_path?: string | null
           lead_status?: Database["public"]["Enums"]["lead_status"]
           name: string
+          niche?: string | null
           phone: string
           phone_e164: string
           public_reference?: string
+          preferred_contact_period?: string | null
           referrer?: string | null
           updated_at?: string
           utm_campaign?: string | null
@@ -245,7 +259,11 @@ export type Database = {
           whatsapp_clicked_at?: string | null
         }
         Update: {
+          audience_size?: string | null
+          biggest_challenge?: string | null
           business_stage?: string | null
+          country_calling_code?: string | null
+          country_iso?: string | null
           created_at?: string
           email?: string
           email_normalized?: string | null
@@ -254,12 +272,15 @@ export type Database = {
           gclid?: string | null
           goal?: string | null
           id?: string
+          instagram_handle?: string | null
           landing_path?: string | null
           lead_status?: Database["public"]["Enums"]["lead_status"]
           name?: string
+          niche?: string | null
           phone?: string
           phone_e164?: string
           public_reference?: string
+          preferred_contact_period?: string | null
           referrer?: string | null
           updated_at?: string
           utm_campaign?: string | null
@@ -531,6 +552,42 @@ export type Database = {
           p_phone: string
           p_phone_e164: string
           p_policy_version: string
+          p_referrer: string
+          p_session_id: string
+          p_source_page: string
+          p_user_agent: string
+          p_utm_campaign: string
+          p_utm_content: string
+          p_utm_medium: string
+          p_utm_source: string
+          p_utm_term: string
+        }
+        Returns: Json
+      }
+      capture_lead_secure_v2: {
+        Args: {
+          p_audience_size: string
+          p_biggest_challenge: string
+          p_business_stage: string
+          p_consent_analytics: boolean
+          p_consent_marketing: boolean
+          p_consent_privacy: boolean
+          p_country_calling_code: string
+          p_country_iso: string
+          p_email: string
+          p_fbclid: string
+          p_gclid: string
+          p_goal: string
+          p_instagram_handle: string
+          p_ip_hash: string
+          p_landing_path: string
+          p_metadata: Json
+          p_name: string
+          p_niche: string
+          p_phone: string
+          p_phone_e164: string
+          p_policy_version: string
+          p_preferred_contact_period: string
           p_referrer: string
           p_session_id: string
           p_source_page: string

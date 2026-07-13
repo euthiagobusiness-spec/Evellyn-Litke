@@ -1,7 +1,7 @@
 export const FIELD_MESSAGES = Object.freeze({
   name: "Informe seu nome completo.",
   email: "Informe um e-mail válido.",
-  phone: "Inclua o DDI e o DDD, por exemplo: +55 11 99999-9999.",
+  phone: "Informe um telefone válido para o país selecionado.",
   consentPrivacy: "Você precisa aceitar a Política de Privacidade.",
 });
 
@@ -21,10 +21,22 @@ export function normalizePhone(value) {
   return `+${digits}`;
 }
 
+export function composeInternationalPhone(callingCode, localNumber) {
+  const normalizedCode = String(callingCode ?? "").replace(/\D/g, "");
+  const normalizedLocal = String(localNumber ?? "").replace(/\D/g, "");
+  if (!/^[1-9][0-9]{0,3}$/.test(normalizedCode) || normalizedLocal.length < 4) {
+    return null;
+  }
+  return normalizePhone(`+${normalizedCode}${normalizedLocal}`);
+}
+
 export function validateLeadFields(fields) {
   const name = normalizeName(fields.name);
   const email = normalizeEmail(fields.email);
-  const phoneE164 = normalizePhone(fields.phone);
+  const phoneE164 = composeInternationalPhone(
+    fields.countryCallingCode,
+    fields.phone,
+  );
   const errors = {};
 
   if (name.length < 2 || name.length > 120) errors.name = FIELD_MESSAGES.name;
@@ -46,17 +58,16 @@ export function validateLeadFields(fields) {
   };
 }
 
-export function formatPhoneInput(value) {
-  const raw = String(value ?? "");
-  if (!raw.startsWith("+55")) return raw.slice(0, 20);
+export function formatPhoneInput(value, callingCode = "+55") {
+  const digits = String(value ?? "").replace(/\D/g, "").slice(0, 15);
+  if (callingCode !== "+55") {
+    return digits.replace(/(\d{3})(?=\d)/g, "$1 ").trim();
+  }
 
-  const digits = raw.replace(/\D/g, "").slice(0, 13);
-  const country = digits.slice(0, 2);
-  const area = digits.slice(2, 4);
-  const local = digits.slice(4);
-
-  let formatted = `+${country}`;
-  if (area) formatted += ` (${area}`;
+  const area = digits.slice(0, 2);
+  const local = digits.slice(2, 11);
+  let formatted = "";
+  if (area) formatted += `(${area}`;
   if (area.length === 2) formatted += ")";
   if (local) {
     const splitAt = local.length > 8 ? 5 : 4;

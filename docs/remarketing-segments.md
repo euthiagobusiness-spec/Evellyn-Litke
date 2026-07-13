@@ -10,3 +10,5 @@ As views abaixo ficam no schema privado e não são expostas ao navegador:
 - `private.upsell_decliners`: recusaram a oferta adicional.
 
 O uso dessas listas deve respeitar a finalidade original e o consentimento de marketing. Ferramentas externas devem receber apenas os campos estritamente necessários.
+
+Os novos campos opcionais permitem análises por nicho, estágio, audiência, desafio, objetivo e período preferido de contato. Eles não devem ser usados para decisões automatizadas sensíveis nem compartilhados fora da finalidade informada.

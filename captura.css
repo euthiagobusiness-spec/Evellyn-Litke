@@ -753,6 +753,102 @@ select {
   padding: 10px 12px;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.phone-fieldset {
+  display: grid;
+  gap: 5px;
+}
+
+.field-label {
+  color: rgba(255, 248, 236, 0.78);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.phone-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(170px, 0.95fr) minmax(150px, 1.05fr);
+}
+
+.phone-grid select {
+  min-width: 0;
+  padding-right: 30px;
+  text-overflow: ellipsis;
+}
+
+.custom-ddi {
+  margin-top: 4px;
+}
+
+.optional-profile {
+  border: 1px solid rgba(228, 210, 184, 0.2);
+  border-radius: 9px;
+  background: rgba(9, 7, 6, 0.2);
+  overflow: hidden;
+}
+
+.optional-profile summary {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 14px;
+  color: var(--champagne-light);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.optional-profile summary::-webkit-details-marker {
+  display: none;
+}
+
+.optional-profile summary::after {
+  content: "+";
+  position: absolute;
+  justify-self: end;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.optional-profile[open] summary::after {
+  content: "−";
+}
+
+.optional-profile summary small {
+  color: rgba(255, 248, 236, 0.58);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.optional-profile summary:focus-visible {
+  outline: 3px solid rgba(228, 210, 184, 0.7);
+  outline-offset: -3px;
+}
+
+.optional-fields {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid rgba(228, 210, 184, 0.14);
+  padding: 14px;
+}
+
 .consent-check {
   display: grid;
   align-items: start;
@@ -988,6 +1084,10 @@ footer a {
 
   .form-card {
     padding: 18px;
+  }
+
+  .phone-grid {
+    grid-template-columns: 1fr;
   }
 
   .mobile-sticky {

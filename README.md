@@ -27,7 +27,7 @@ npm run check
 ## Organização
 
 - `src/pages`: inicialização de cada página
-- `src/lib`: API, validação, analytics, sessão e carrossel
+- `src/lib`: API, validação, países/DDIs, analytics, sessão e carrossel
 - `src/types`: tipos gerados do banco
 - `supabase/migrations`: schema e segurança versionados
 - `supabase/functions`: endpoints seguros de captura e eventos

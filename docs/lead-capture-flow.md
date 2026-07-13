@@ -1,12 +1,13 @@
 # Fluxo de captura
 
-1. O visitante acessa `/captura` e preenche nome, e-mail e telefone com DDI.
-2. O navegador valida os campos e exige apenas o aceite da Política de Privacidade; marketing permanece opcional e desmarcado.
-3. `create-lead` repete a validação, verifica origem, honeypot, payload, CAPTCHA opcional e rate limit.
-4. O telefone é normalizado para E.164 e o e-mail para minúsculas.
-5. O RPC faz upsert atômico, registra consentimentos e cria o evento de captura.
-6. A resposta contém somente uma referência UUID opaca, guardada em `sessionStorage`.
-7. Somente após sucesso o navegador abre `/obrigado-inscricao`.
-8. A página registra a visualização e o clique no WhatsApp sem colocar PII na URL.
+1. O visitante acessa `/captura` e preenche nome, e-mail e telefone; Brasil (`+55`) vem selecionado por padrão e o país pode ser alterado.
+2. Dados de perfil e segmentação ficam em um bloco recolhível e são totalmente opcionais.
+3. O navegador valida os campos e exige apenas o aceite da Política de Privacidade; marketing permanece opcional e desmarcado.
+4. `create-lead` repete a validação, verifica origem, honeypot, payload, CAPTCHA opcional e rate limit.
+5. O telefone é normalizado para E.164 e o e-mail para minúsculas.
+6. O RPC faz upsert atômico, registra dados opcionais, consentimentos e o evento de captura.
+7. A resposta contém somente uma referência UUID opaca, guardada em `sessionStorage`.
+8. Somente após sucesso o navegador abre `/obrigado-inscricao`.
+9. A página registra a visualização e o clique no WhatsApp sem colocar PII na URL.
 
 Falhas de rede ou backend mantêm o usuário no formulário, reabilitam o botão e exibem mensagem amigável. Duplo clique é bloqueado no cliente e a deduplicação também ocorre no banco.

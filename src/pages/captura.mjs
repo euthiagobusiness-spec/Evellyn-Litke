@@ -1,5 +1,10 @@
 import { bindTrackedElements, trackEvent } from "../lib/analytics.mjs";
 import { initCaptureCarousel } from "../lib/capture-carousel.mjs";
+import {
+  getSelectedCountry,
+  normalizeCallingCode,
+  populateCountrySelect,
+} from "../lib/country-codes.mjs";
 import { callFunction, FunnelApiError } from "../lib/funnel-api.mjs";
 import { getOrCreateSessionId, saveLeadReference } from "../lib/lead-session.mjs";
 import {
@@ -10,18 +15,42 @@ import {
 const form = document.querySelector("[data-lead-form]");
 const status = form?.querySelector(".submit-status");
 const submitButton = form?.querySelector('button[type="submit"]');
+const countrySelect = form?.querySelector('[name="countryIso"]');
+const customDdiWrap = form?.querySelector("[data-custom-ddi]");
+const customDdiInput = form?.querySelector('[name="customDdi"]');
+const phoneInput = form?.querySelector('[name="phone"]');
 const sessionId = getOrCreateSessionId();
 let submitting = false;
 let formStarted = false;
 
 function currentFields() {
   const data = new FormData(form);
+  const country = getSelectedCountry(countrySelect, data.get("customDdi"));
   return {
     name: data.get("name"),
     email: data.get("email"),
     phone: data.get("phone"),
+    countryIso: country.iso,
+    countryCallingCode: country.callingCode,
     consentPrivacy: data.get("consentPrivacy") === "on",
   };
+}
+
+function syncCountryFields() {
+  const country = getSelectedCountry(countrySelect, customDdiInput?.value);
+  customDdiWrap?.toggleAttribute("hidden", !country.custom);
+  if (customDdiInput) {
+    customDdiInput.required = country.custom;
+    customDdiInput.value = country.custom
+      ? normalizeCallingCode(customDdiInput.value)
+      : "";
+  }
+  if (phoneInput) {
+    phoneInput.placeholder = country.callingCode === "+55"
+      ? "(DDD) 99999-9999"
+      : "Número com código de área";
+    phoneInput.value = formatPhoneInput(phoneInput.value, country.callingCode);
+  }
 }
 
 function setFieldError(field, message = "") {
@@ -81,6 +110,9 @@ bindTrackedElements();
 trackEvent("PageView", { page: "captura" });
 
 if (form) {
+  populateCountrySelect(countrySelect);
+  syncCountryFields();
+
   form.addEventListener("input", (event) => {
     if (!formStarted) {
       formStarted = true;
@@ -88,8 +120,17 @@ if (form) {
     }
 
     if (event.target?.name === "phone") {
-      event.target.value = formatPhoneInput(event.target.value);
+      const country = getSelectedCountry(countrySelect, customDdiInput?.value);
+      event.target.value = formatPhoneInput(event.target.value, country.callingCode);
     }
+    if (event.target?.name === "customDdi") {
+      event.target.value = normalizeCallingCode(event.target.value);
+    }
+    validate();
+  });
+
+  countrySelect?.addEventListener("change", () => {
+    syncCountryFields();
     validate();
   });
 
@@ -120,13 +161,21 @@ if (form) {
     status.classList.remove("is-error");
 
     const data = new FormData(form);
+    const country = getSelectedCountry(countrySelect, data.get("customDdi"));
     try {
       const response = await callFunction("create-lead", {
         name: result.normalized.name,
         email: result.normalized.email,
-        phone: data.get("phone"),
+        phone: result.normalized.phoneE164,
+        countryIso: country.iso,
+        countryCallingCode: country.callingCode,
         businessStage: data.get("businessStage") || null,
         goal: data.get("goal") || null,
+        niche: data.get("niche") || null,
+        instagramHandle: data.get("instagramHandle") || null,
+        audienceSize: data.get("audienceSize") || null,
+        biggestChallenge: data.get("biggestChallenge") || null,
+        preferredContactPeriod: data.get("preferredContactPeriod") || null,
         consentPrivacy: true,
         consentMarketing: data.get("consentMarketing") === "on",
         consentAnalytics: false,

@@ -78,13 +78,20 @@ Deno.serve(async (request: Request) => {
     }
 
     const userAgent = (request.headers.get("user-agent") ?? "").slice(0, 512);
-    const { data, error } = await supabase.rpc("capture_lead_secure", {
+    const { data, error } = await supabase.rpc("capture_lead_secure_v2", {
       p_name: payload.name,
       p_email: payload.email,
       p_phone: payload.phone,
       p_phone_e164: payload.phoneE164,
+      p_country_iso: payload.countryIso,
+      p_country_calling_code: payload.countryCallingCode,
       p_business_stage: payload.businessStage ?? "",
       p_goal: payload.goal ?? "",
+      p_niche: payload.niche ?? "",
+      p_instagram_handle: payload.instagramHandle ?? "",
+      p_audience_size: payload.audienceSize ?? "",
+      p_biggest_challenge: payload.biggestChallenge ?? "",
+      p_preferred_contact_period: payload.preferredContactPeriod ?? "",
       p_utm_source: payload.utmSource ?? "",
       p_utm_medium: payload.utmMedium ?? "",
       p_utm_campaign: payload.utmCampaign ?? "",

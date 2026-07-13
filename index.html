@@ -70,15 +70,14 @@
         <div class="section-inner form-shell">
           <div>
             <p class="eyebrow">Inscrição gratuita</p>
-            <h2 id="form-title">Garanta sua vaga no evento Os 3 Passos para Sair do Anonimato Digital</h2>
+            <h2 id="form-title">Sua vaga em menos de 1 minuto.</h2>
             <p class="lead">
-              Preencha seus dados e confirme sua inscrição. Em seguida, você será direcionado para a
-              página de confirmação, onde poderá entrar no grupo oficial de WhatsApp.
+              Informe seus dados essenciais. Depois, entre no grupo oficial para receber o acesso.
             </p>
             <ul class="check-list">
-              <li><span class="check">✓</span><span>Evento gratuito, online e ao vivo.</span></li>
-              <li><span class="check">✓</span><span>Conteúdo focado em autoridade, posicionamento e marca pessoal.</span></li>
-              <li><span class="check">✓</span><span>Comunicação profissional, com princípios e sem promessas exageradas.</span></li>
+              <li><span class="check">✓</span><span>Gratuito, online e ao vivo.</span></li>
+              <li><span class="check">✓</span><span>Autoridade e posicionamento com valores.</span></li>
+              <li><span class="check">✓</span><span>Dados protegidos e sem spam.</span></li>
             </ul>
           </div>
 
@@ -94,30 +93,88 @@
                 <input id="lead-email" type="email" name="email" placeholder="Digite seu melhor e-mail" autocomplete="email" maxlength="254" required aria-describedby="lead-email-error" />
                 <span class="field-error" id="lead-email-error" data-error-for="email" aria-live="polite"></span>
               </label>
-              <label for="lead-phone">
-                WhatsApp
-                <input id="lead-phone" type="tel" name="phone" placeholder="+55 (DDD) 99999-9999" autocomplete="tel" inputmode="tel" maxlength="20" required aria-describedby="lead-phone-error" />
+              <div class="phone-fieldset" role="group" aria-labelledby="lead-phone-label">
+                <span class="field-label" id="lead-phone-label">WhatsApp</span>
+                <div class="phone-grid">
+                  <label class="sr-only" for="lead-country">País e DDI</label>
+                  <select id="lead-country" name="countryIso" autocomplete="country" aria-label="País e DDI"></select>
+                  <label class="sr-only" for="lead-phone">Número do WhatsApp</label>
+                  <input id="lead-phone" type="tel" name="phone" placeholder="(DDD) 99999-9999" autocomplete="tel-national" inputmode="tel" maxlength="22" required aria-describedby="lead-phone-error" />
+                </div>
+                <label class="custom-ddi" for="lead-custom-ddi" data-custom-ddi hidden>
+                  Digite o DDI do seu país
+                  <input id="lead-custom-ddi" type="tel" name="customDdi" placeholder="Ex.: +598" inputmode="numeric" maxlength="5" />
+                </label>
                 <span class="field-error" id="lead-phone-error" data-error-for="phone" aria-live="polite"></span>
-              </label>
-              <label for="lead-business-stage">
-                Você já empreende na internet?
-                <select id="lead-business-stage" name="businessStage">
-                  <option value="">Selecione uma opção</option>
-                  <option>Sim</option>
-                  <option>Ainda não</option>
-                  <option>Estou começando</option>
-                </select>
-              </label>
-              <label for="lead-goal">
-                Qual melhor descreve seu momento?
-                <select id="lead-goal" name="goal">
-                  <option value="">Selecione uma opção</option>
-                  <option>Quero me posicionar</option>
-                  <option>Quero criar conteúdo com estratégia</option>
-                  <option>Quero monetizar meu conhecimento</option>
-                  <option>Quero fortalecer minha autoridade</option>
-                </select>
-              </label>
+              </div>
+
+              <details class="optional-profile">
+                <summary>
+                  <span>Personalizar minha experiência</span>
+                  <small>Opcional — leva menos de 30 segundos</small>
+                </summary>
+                <div class="optional-fields">
+                  <label for="lead-business-stage">
+                    Em que fase você está?
+                    <select id="lead-business-stage" name="businessStage">
+                      <option value="">Prefiro não informar</option>
+                      <option>Ainda não comecei</option>
+                      <option>Estou começando</option>
+                      <option>Já vendo pela internet</option>
+                      <option>Tenho um negócio consolidado</option>
+                    </select>
+                  </label>
+                  <label for="lead-niche">
+                    Nicho ou área de atuação
+                    <input id="lead-niche" type="text" name="niche" placeholder="Ex.: consultoria, saúde, educação" maxlength="120" />
+                  </label>
+                  <label for="lead-instagram">
+                    Instagram ou perfil principal
+                    <input id="lead-instagram" type="text" name="instagramHandle" placeholder="Ex.: @seuperfil" maxlength="160" autocapitalize="none" />
+                  </label>
+                  <label for="lead-audience-size">
+                    Tamanho da sua audiência
+                    <select id="lead-audience-size" name="audienceSize">
+                      <option value="">Prefiro não informar</option>
+                      <option>Ainda não tenho audiência</option>
+                      <option>Até 1 mil seguidores</option>
+                      <option>De 1 mil a 5 mil</option>
+                      <option>De 5 mil a 20 mil</option>
+                      <option>Mais de 20 mil</option>
+                    </select>
+                  </label>
+                  <label for="lead-challenge">
+                    Maior desafio hoje
+                    <select id="lead-challenge" name="biggestChallenge">
+                      <option value="">Prefiro não informar</option>
+                      <option>Não sei o que comunicar</option>
+                      <option>Produzo conteúdo, mas não cresço</option>
+                      <option>Tenho audiência, mas não vendo</option>
+                      <option>Não tenho constância</option>
+                      <option>Tenho dificuldade em me posicionar</option>
+                    </select>
+                  </label>
+                  <label for="lead-goal">
+                    Resultado que mais deseja
+                    <select id="lead-goal" name="goal">
+                      <option value="">Prefiro não informar</option>
+                      <option>Quero me posicionar</option>
+                      <option>Quero criar conteúdo com estratégia</option>
+                      <option>Quero monetizar meu conhecimento</option>
+                      <option>Quero fortalecer minha autoridade</option>
+                    </select>
+                  </label>
+                  <label for="lead-contact-period">
+                    Melhor período para contato
+                    <select id="lead-contact-period" name="preferredContactPeriod">
+                      <option value="">Prefiro não informar</option>
+                      <option>Manhã</option>
+                      <option>Tarde</option>
+                      <option>Noite</option>
+                    </select>
+                  </label>
+                </div>
+              </details>
               <label class="consent-check">
                 <input type="checkbox" name="consentPrivacy" required aria-describedby="lead-consent-error" />
                 <span>
@@ -224,7 +281,7 @@
               <h3>O método para se tornar a referência do seu nicho</h3>
               <p>
                 Saia da multidão de “criadores de conteúdo” e ocupe um lugar de autoridade, unindo marca
-                pessoal e conteúdo estratégico para gerar oportunidades reais em até 90 dias.
+                pessoal e conteúdo estratégico para gerar oportunidades reais com consistência.
               </p>
             </article>
           </div>

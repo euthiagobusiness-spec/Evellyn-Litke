@@ -6,8 +6,15 @@ export interface ValidatedLead {
   email: string;
   phone: string;
   phoneE164: string;
+  countryIso: string;
+  countryCallingCode: string;
   businessStage: string | null;
   goal: string | null;
+  niche: string | null;
+  instagramHandle: string | null;
+  audienceSize: string | null;
+  biggestChallenge: string | null;
+  preferredContactPeriod: string | null;
   consentPrivacy: boolean;
   consentMarketing: boolean;
   consentAnalytics: boolean;
@@ -78,6 +85,13 @@ export function validateLead(input: unknown): ValidatedLead {
   const name = text(payload.name, "name", 120, true)!;
   const email = text(payload.email, "email", 254, true)!.toLowerCase();
   const phone = text(payload.phone, "phone", 40, true)!;
+  const countryIso = text(payload.countryIso, "countryIso", 2, true)!.toUpperCase();
+  const countryCallingCode = text(
+    payload.countryCallingCode,
+    "countryCallingCode",
+    5,
+    true,
+  )!;
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new HttpError(422, "invalid", "email");
@@ -87,9 +101,21 @@ export function validateLead(input: unknown): ValidatedLead {
     throw new HttpError(422, "country_code_required", "phone");
   }
 
+  if (!/^[A-Z]{2}$/.test(countryIso)) {
+    throw new HttpError(422, "invalid", "countryIso");
+  }
+
+  if (!/^\+[1-9][0-9]{0,3}$/.test(countryCallingCode)) {
+    throw new HttpError(422, "invalid", "countryCallingCode");
+  }
+
   const parsedPhone = parsePhoneNumberFromString(phone);
   if (!parsedPhone?.isValid()) {
     throw new HttpError(422, "invalid", "phone");
+  }
+
+  if (`+${parsedPhone.countryCallingCode}` !== countryCallingCode) {
+    throw new HttpError(422, "country_code_mismatch", "phone");
   }
 
   if (payload.consentPrivacy !== true) {
@@ -101,8 +127,19 @@ export function validateLead(input: unknown): ValidatedLead {
     email,
     phone,
     phoneE164: parsedPhone.number,
+    countryIso,
+    countryCallingCode,
     businessStage: text(payload.businessStage, "businessStage", 100),
     goal: text(payload.goal, "goal", 160),
+    niche: text(payload.niche, "niche", 120),
+    instagramHandle: text(payload.instagramHandle, "instagramHandle", 160),
+    audienceSize: text(payload.audienceSize, "audienceSize", 40),
+    biggestChallenge: text(payload.biggestChallenge, "biggestChallenge", 120),
+    preferredContactPeriod: text(
+      payload.preferredContactPeriod,
+      "preferredContactPeriod",
+      40,
+    ),
     consentPrivacy: true,
     consentMarketing: optionalBoolean(payload.consentMarketing),
     consentAnalytics: optionalBoolean(payload.consentAnalytics),
