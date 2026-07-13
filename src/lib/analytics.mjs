@@ -1,3 +1,5 @@
+import "./meta-pixel.mjs";
+
 export function trackEvent(eventName, details = {}) {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({

@@ -8,6 +8,10 @@ import {
 import { callFunction, FunnelApiError } from "../lib/funnel-api.mjs";
 import { getOrCreateSessionId, saveLeadReference } from "../lib/lead-session.mjs";
 import {
+  setMetaMarketingConsent,
+  trackMetaLead,
+} from "../lib/meta-pixel.mjs";
+import {
   formatPhoneInput,
   validateLeadFields,
 } from "../lib/lead-validation.mjs";
@@ -166,6 +170,7 @@ if (form) {
 
     const data = new FormData(form);
     const country = getSelectedCountry(countrySelect, data.get("customDdi"));
+    const consentMarketing = data.get("consentMarketing") === "on";
     try {
       const response = await callFunction("create-lead", {
         name: result.normalized.name,
@@ -181,7 +186,7 @@ if (form) {
         biggestChallenge: data.get("biggestChallenge") || null,
         preferredContactPeriod: data.get("preferredContactPeriod") || null,
         consentPrivacy: true,
-        consentMarketing: data.get("consentMarketing") === "on",
+        consentMarketing,
         consentAnalytics: false,
         website: data.get("website") || "",
         sessionId,
@@ -196,6 +201,8 @@ if (form) {
       });
 
       saveLeadReference(response.leadReference);
+      setMetaMarketingConsent(consentMarketing);
+      if (consentMarketing) trackMetaLead(response.leadReference);
       trackEvent("Lead", { page: "captura" });
       status.textContent = "Inscrição confirmada. Redirecionando...";
       window.location.assign(form.dataset.nextPath);
