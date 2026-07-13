@@ -10,6 +10,7 @@ import {
   HttpError,
   isAllowedOrigin,
   jsonResponse,
+  preflightResponse,
   readJsonBody,
   sha256,
 } from "../_shared/http.ts";
@@ -17,16 +18,7 @@ import { validateEvent } from "../_shared/validation.ts";
 
 Deno.serve(async (request: Request) => {
   if (request.method === "OPTIONS") {
-    return new Response(null, {
-      status: isAllowedOrigin(request) ? 204 : 403,
-      headers: {
-        "Access-Control-Allow-Origin": request.headers.get("origin") ?? "",
-        "Access-Control-Allow-Headers": "content-type, x-client-info",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Max-Age": "86400",
-        "Vary": "Origin",
-      },
-    });
+    return preflightResponse(request);
   }
 
   if (!isAllowedOrigin(request)) {

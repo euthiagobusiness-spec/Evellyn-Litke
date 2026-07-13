@@ -5,18 +5,30 @@ const LOCAL_ORIGINS = [
   "http://127.0.0.1:5173",
   "http://localhost:5173",
 ];
+const PRODUCTION_ORIGINS = [
+  "https://eventomrc.com.br",
+  "https://www.eventomrc.com.br",
+  "https://evellyn-litke.vercel.app",
+];
 
 function configuredOrigins(): Set<string> {
   const configured = [
     Deno.env.get("SITE_URL"),
     ...(Deno.env.get("ALLOWED_ORIGINS") ?? "").split(","),
-    "https://evellyn-litke.vercel.app",
+    ...PRODUCTION_ORIGINS,
     ...LOCAL_ORIGINS,
   ]
     .map((value) => value?.trim().replace(/\/$/, ""))
     .filter((value): value is string => Boolean(value));
 
   return new Set(configured);
+}
+
+export function preflightResponse(request: Request): Response {
+  return new Response(null, {
+    status: isAllowedOrigin(request) ? 204 : 403,
+    headers: corsHeaders(request),
+  });
 }
 
 export function isAllowedOrigin(request: Request): boolean {
