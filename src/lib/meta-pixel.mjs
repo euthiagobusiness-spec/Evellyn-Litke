@@ -44,14 +44,21 @@ function installPixelRuntime() {
   document.head.append(script);
 }
 
-export function initMetaPixel() {
-  if (!hasWindow() || !readConsent()) return false;
-
+function prepareMetaPixel() {
+  if (!hasWindow()) return false;
   installPixelRuntime();
   if (!window.__mrcMetaPixelInitialized) {
+    window.fbq("consent", readConsent() ? "grant" : "revoke");
     window.fbq("init", META_PIXEL_ID);
     window.__mrcMetaPixelInitialized = true;
   }
+  return true;
+}
+
+export function initMetaPixel() {
+  if (!prepareMetaPixel() || !readConsent()) return false;
+
+  window.fbq("consent", "grant");
   if (!window.__mrcMetaPageViewTracked) {
     window.fbq("track", "PageView");
     window.__mrcMetaPageViewTracked = true;
@@ -61,7 +68,9 @@ export function initMetaPixel() {
 
 export function setMetaMarketingConsent(granted) {
   writeConsent(Boolean(granted));
+  prepareMetaPixel();
   if (granted) initMetaPixel();
+  else window.fbq?.("consent", "revoke");
 }
 
 export function trackMetaLead(leadReference) {
@@ -71,4 +80,5 @@ export function trackMetaLead(leadReference) {
   });
 }
 
+prepareMetaPixel();
 initMetaPixel();
