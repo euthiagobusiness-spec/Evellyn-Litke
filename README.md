@@ -41,6 +41,6 @@ Os secrets de backend ficam no Supabase: `SITE_URL`, `ALLOWED_ORIGINS`, `WHATSAP
 
 Consulte [docs/supabase-setup.md](docs/supabase-setup.md) para implantação completa.
 
-## Pendências comerciais
+## Checkout externo da Imersão
 
-O checkout e o provedor de pagamento ainda não foram informados. As tabelas de produtos, pedidos, itens, pagamentos e webhooks estão prontas, mas os botões de compra continuam bloqueados pelo placeholder `[LINK DO CHECKOUT]` para evitar um fluxo financeiro incompleto.
+A página `/upsell` registra o interesse dos leads conhecidos antes de encaminhá-los ao checkout. Configure `VITE_UPSELL_CHECKOUT_URL` na Vercel com a URL pública do checkout externo. Enquanto essa variável não estiver configurada, os botões permanecem na página e informam que o link será disponibilizado em breve.
