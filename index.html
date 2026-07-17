@@ -5,387 +5,209 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="/assets/favicon.png" />
     <link rel="apple-touch-icon" href="/assets/favicon.png" />
-    <meta name="theme-color" content="#74051e" />
-    <title>Os 3 Passos para Sair do Anonimato Digital | Evellyn Litke</title>
+    <meta name="theme-color" content="#120a06" />
+    <title>Pare de Ser Invisível na Internet | Aula Gratuita MRC</title>
     <meta
       name="description"
-      content="Evento gratuito com Evellyn Litke: como cristãos podem construir autoridade, influência e oportunidades na internet sem abrir mão dos seus valores."
+      content="Participe da aula gratuita e descubra como transformar conhecimento em autoridade e oportunidades no digital sem comprometer seus valores."
     />
     <link rel="stylesheet" href="/captura.css" />
   </head>
   <body>
-    <main class="page">
-      <section class="hero section" id="topo">
-        <div class="brand-row">
-          <div class="brand-mark">Evellyn Litke | Método Referência Cristã</div>
-          <div>Evento gratuito, online e ao vivo</div>
-        </div>
+    <main class="capture-page">
+      <section class="capture-hero" id="topo" aria-labelledby="capture-title">
+        <div class="hero-shell">
+          <div class="hero-content">
+            <p class="eyebrow">Aula gratuita · inscrições abertas</p>
 
-        <div class="hero-inner section-inner">
-          <div class="hero-copy">
-            <p class="eyebrow">Os 3 Passos para Sair do Anonimato Digital — inscrições abertas</p>
-            <h1>
-              O Fim do Anonimato Digital: Como Cristãos Estão Construindo Autoridade e Atraindo
-              Oportunidades na Internet, Sem Abrir Mão dos Seus Valores.
+            <h1 id="capture-title">
+              <span>Pare de Ser Invisível na Internet.</span>
+              <span>Descubra Como Cristãos Estão Se Tornando</span>
+              <span>Referência Sem Negociar Seus Princípios.</span>
             </h1>
-            <p class="lead">
-              Você tem conhecimento, experiência e um chamado que pode transformar vidas, mas seu perfil
-              ainda parece invisível. A verdade é dura: não é sua mensagem que está errada, é o seu
-              posicionamento.
+
+            <p class="subheadline">
+              <span>Participe da aula gratuita e descubra o método que está ajudando cristãos</span>
+              <span>a transformar conhecimento em autoridade, conquistar reconhecimento e gerar</span>
+              <span>oportunidades no digital sem comprometer seus valores.</span>
             </p>
+
+            <div class="form-card" id="inscricao">
+              <form data-lead-form novalidate>
+                <label class="input-field" for="lead-name">
+                  <span class="sr-only">Nome completo</span>
+                  <input
+                    id="lead-name"
+                    type="text"
+                    name="name"
+                    placeholder="Digite seu nome completo"
+                    autocomplete="name"
+                    maxlength="120"
+                    required
+                    aria-describedby="lead-name-error"
+                  />
+                  <span class="field-error" id="lead-name-error" data-error-for="name" aria-live="polite"></span>
+                </label>
+
+                <label class="input-field" for="lead-email">
+                  <span class="sr-only">Melhor e-mail</span>
+                  <input
+                    id="lead-email"
+                    type="email"
+                    name="email"
+                    placeholder="Digite seu melhor e-mail"
+                    autocomplete="email"
+                    maxlength="254"
+                    required
+                    aria-describedby="lead-email-error"
+                  />
+                  <span class="field-error" id="lead-email-error" data-error-for="email" aria-live="polite"></span>
+                </label>
+
+                <div class="phone-fieldset" role="group" aria-labelledby="lead-phone-label">
+                  <span class="sr-only" id="lead-phone-label">WhatsApp</span>
+                  <div class="phone-grid">
+                    <label class="sr-only" for="lead-country">País e DDI</label>
+                    <select id="lead-country" name="countryIso" autocomplete="country" aria-label="País e DDI"></select>
+                    <label class="sr-only" for="lead-phone">Número do WhatsApp</label>
+                    <input
+                      id="lead-phone"
+                      type="tel"
+                      name="phone"
+                      placeholder="Número do WhatsApp"
+                      autocomplete="tel-national"
+                      inputmode="tel"
+                      maxlength="22"
+                      required
+                      aria-describedby="lead-phone-error"
+                    />
+                  </div>
+                  <label class="custom-ddi" for="lead-custom-ddi" data-custom-ddi hidden>
+                    DDI do seu país
+                    <input id="lead-custom-ddi" type="tel" name="customDdi" placeholder="Ex.: +598" inputmode="numeric" maxlength="5" />
+                  </label>
+                  <span class="field-error" id="lead-phone-error" data-error-for="phone" aria-live="polite"></span>
+                </div>
+
+                <details class="optional-profile">
+                  <summary>
+                    <span>Personalizar minha experiência</span>
+                    <small>Opcional</small>
+                  </summary>
+                  <div class="optional-fields">
+                    <label for="lead-business-stage">
+                      Em que fase você está?
+                      <select id="lead-business-stage" name="businessStage">
+                        <option value="">Prefiro não informar</option>
+                        <option>Ainda não comecei</option>
+                        <option>Estou começando</option>
+                        <option>Já vendo pela internet</option>
+                        <option>Tenho um negócio consolidado</option>
+                      </select>
+                    </label>
+                    <label for="lead-niche">
+                      Nicho ou área de atuação
+                      <input id="lead-niche" type="text" name="niche" placeholder="Ex.: consultoria, saúde, educação" maxlength="120" />
+                    </label>
+                    <label for="lead-instagram">
+                      Instagram ou perfil principal
+                      <input id="lead-instagram" type="text" name="instagramHandle" placeholder="Ex.: @seuperfil" maxlength="160" autocapitalize="none" />
+                    </label>
+                    <label for="lead-audience-size">
+                      Tamanho da sua audiência
+                      <select id="lead-audience-size" name="audienceSize">
+                        <option value="">Prefiro não informar</option>
+                        <option>Ainda não tenho audiência</option>
+                        <option>Até 1 mil seguidores</option>
+                        <option>De 1 mil a 5 mil</option>
+                        <option>De 5 mil a 20 mil</option>
+                        <option>Mais de 20 mil</option>
+                      </select>
+                    </label>
+                    <label for="lead-challenge">
+                      Maior desafio hoje
+                      <select id="lead-challenge" name="biggestChallenge">
+                        <option value="">Prefiro não informar</option>
+                        <option>Não sei o que comunicar</option>
+                        <option>Produzo conteúdo, mas não cresço</option>
+                        <option>Tenho audiência, mas não vendo</option>
+                        <option>Não tenho constância</option>
+                        <option>Tenho dificuldade em me posicionar</option>
+                      </select>
+                    </label>
+                    <label for="lead-goal">
+                      Resultado que mais deseja
+                      <select id="lead-goal" name="goal">
+                        <option value="">Prefiro não informar</option>
+                        <option>Quero me posicionar</option>
+                        <option>Quero criar conteúdo com estratégia</option>
+                        <option>Quero monetizar meu conhecimento</option>
+                        <option>Quero fortalecer minha autoridade</option>
+                      </select>
+                    </label>
+                    <label for="lead-contact-period">
+                      Melhor período para contato
+                      <select id="lead-contact-period" name="preferredContactPeriod">
+                        <option value="">Prefiro não informar</option>
+                        <option>Manhã</option>
+                        <option>Tarde</option>
+                        <option>Noite</option>
+                      </select>
+                    </label>
+                    <label class="consent-check consent-check--optional">
+                      <input type="checkbox" name="consentMarketing" />
+                      <span>Quero receber novidades, conteúdos e ofertas. (Opcional)</span>
+                    </label>
+                  </div>
+                </details>
+
+                <label class="consent-check">
+                  <input type="checkbox" name="consentPrivacy" required aria-describedby="lead-consent-error" />
+                  <span>
+                    Li e concordo com a
+                    <a href="/politica-de-privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.
+                  </span>
+                </label>
+                <span class="field-error consent-error" id="lead-consent-error" data-error-for="consentPrivacy" aria-live="polite"></span>
+
+                <div class="honeypot-field" aria-hidden="true">
+                  <label for="lead-website">Não preencha este campo</label>
+                  <input id="lead-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+                </div>
+
+                <button class="button hero-submit" type="submit" data-track="LeadFormSubmit" disabled>
+                  Quero me inscrever gratuitamente
+                </button>
+                <p class="submit-status" aria-live="polite"></p>
+                <p class="form-note">
+                  Cadastro seguro. Consulte os
+                  <a href="/termos-de-uso" target="_blank" rel="noopener">Termos de Uso</a>.
+                </p>
+              </form>
+            </div>
 
             <div class="event-strip" aria-label="Informações do evento">
-              <span class="event-pill"><span class="icon">D</span>26 de julho</span>
-              <span class="event-pill"><span class="icon">▶</span>YouTube + Instagram</span>
-              <span class="event-pill"><span class="icon">O</span>Online e gratuito</span>
+              <span class="event-pill"><span class="event-icon">D</span>26 de julho</span>
+              <span class="event-pill"><span class="event-icon">▶</span>YouTube + Instagram</span>
+              <span class="event-pill"><span class="event-icon">O</span>Online e gratuito</span>
             </div>
-
-            <a class="button" href="#inscricao" data-track="CTA_Click_Hero">
-              Quero me inscrever gratuitamente
-            </a>
           </div>
 
-          <div class="hero-visual" aria-label="Espaço visual da expert">
-            <div class="expert-placeholder">
-              <div class="portrait-frame">
-                <img
-                  class="carousel-image"
-                  data-carousel-image="hero"
-                  src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
-                  alt="Evellyn Litke sorrindo em ensaio profissional"
-                />
+          <div class="hero-visual" aria-label="Evellyn Litke, criadora do Método Referência Cristã">
+            <div class="portrait-frame">
+              <img
+                class="carousel-image"
+                data-carousel-image="hero"
+                src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
+                alt="Evellyn Litke sorrindo em ensaio profissional"
+              />
+              <div class="hero-signature" aria-hidden="true">
+                <strong>MRC</strong>
+                <span>Método Referência Cristã</span>
               </div>
-              <div class="carousel-progress" aria-hidden="true"><span></span></div>
             </div>
-            <div class="hero-signature" aria-hidden="true">
-              <strong>MRC</strong>
-              <span>Método Referência Cristã</span>
-            </div>
-          </div>
-        </div>
-        <div class="curve" aria-hidden="true"></div>
-      </section>
+            <div class="carousel-progress" aria-hidden="true"><span></span></div>
 
-      <section class="section form-section" id="inscricao" aria-labelledby="form-title">
-        <div class="section-inner form-shell">
-          <div>
-            <p class="eyebrow">Inscrição gratuita</p>
-            <h2 id="form-title">Sua vaga em menos de 1 minuto.</h2>
-            <p class="lead">
-              Informe seus dados essenciais. Depois, entre no grupo oficial para receber o acesso.
-            </p>
-            <ul class="check-list">
-              <li><span class="check">✓</span><span>Gratuito, online e ao vivo.</span></li>
-              <li><span class="check">✓</span><span>Autoridade e posicionamento com valores.</span></li>
-              <li><span class="check">✓</span><span>Dados protegidos e sem spam.</span></li>
-            </ul>
-          </div>
-
-          <div class="form-card">
-            <form data-lead-form data-next-path="/obrigado-inscricao" novalidate>
-              <label for="lead-name">
-                Nome completo
-                <input id="lead-name" type="text" name="name" placeholder="Digite seu nome completo" autocomplete="name" maxlength="120" required aria-describedby="lead-name-error" />
-                <span class="field-error" id="lead-name-error" data-error-for="name" aria-live="polite"></span>
-              </label>
-              <label for="lead-email">
-                Melhor e-mail
-                <input id="lead-email" type="email" name="email" placeholder="Digite seu melhor e-mail" autocomplete="email" maxlength="254" required aria-describedby="lead-email-error" />
-                <span class="field-error" id="lead-email-error" data-error-for="email" aria-live="polite"></span>
-              </label>
-              <div class="phone-fieldset" role="group" aria-labelledby="lead-phone-label">
-                <span class="field-label" id="lead-phone-label">WhatsApp</span>
-                <div class="phone-grid">
-                  <label class="sr-only" for="lead-country">País e DDI</label>
-                  <select id="lead-country" name="countryIso" autocomplete="country" aria-label="País e DDI"></select>
-                  <label class="sr-only" for="lead-phone">Número do WhatsApp</label>
-                  <input id="lead-phone" type="tel" name="phone" placeholder="(DDD) 99999-9999" autocomplete="tel-national" inputmode="tel" maxlength="22" required aria-describedby="lead-phone-error" />
-                </div>
-                <label class="custom-ddi" for="lead-custom-ddi" data-custom-ddi hidden>
-                  Digite o DDI do seu país
-                  <input id="lead-custom-ddi" type="tel" name="customDdi" placeholder="Ex.: +598" inputmode="numeric" maxlength="5" />
-                </label>
-                <span class="field-error" id="lead-phone-error" data-error-for="phone" aria-live="polite"></span>
-              </div>
-
-              <details class="optional-profile">
-                <summary>
-                  <span>Personalizar minha experiência</span>
-                  <small>Opcional — leva menos de 30 segundos</small>
-                </summary>
-                <div class="optional-fields">
-                  <label for="lead-business-stage">
-                    Em que fase você está?
-                    <select id="lead-business-stage" name="businessStage">
-                      <option value="">Prefiro não informar</option>
-                      <option>Ainda não comecei</option>
-                      <option>Estou começando</option>
-                      <option>Já vendo pela internet</option>
-                      <option>Tenho um negócio consolidado</option>
-                    </select>
-                  </label>
-                  <label for="lead-niche">
-                    Nicho ou área de atuação
-                    <input id="lead-niche" type="text" name="niche" placeholder="Ex.: consultoria, saúde, educação" maxlength="120" />
-                  </label>
-                  <label for="lead-instagram">
-                    Instagram ou perfil principal
-                    <input id="lead-instagram" type="text" name="instagramHandle" placeholder="Ex.: @seuperfil" maxlength="160" autocapitalize="none" />
-                  </label>
-                  <label for="lead-audience-size">
-                    Tamanho da sua audiência
-                    <select id="lead-audience-size" name="audienceSize">
-                      <option value="">Prefiro não informar</option>
-                      <option>Ainda não tenho audiência</option>
-                      <option>Até 1 mil seguidores</option>
-                      <option>De 1 mil a 5 mil</option>
-                      <option>De 5 mil a 20 mil</option>
-                      <option>Mais de 20 mil</option>
-                    </select>
-                  </label>
-                  <label for="lead-challenge">
-                    Maior desafio hoje
-                    <select id="lead-challenge" name="biggestChallenge">
-                      <option value="">Prefiro não informar</option>
-                      <option>Não sei o que comunicar</option>
-                      <option>Produzo conteúdo, mas não cresço</option>
-                      <option>Tenho audiência, mas não vendo</option>
-                      <option>Não tenho constância</option>
-                      <option>Tenho dificuldade em me posicionar</option>
-                    </select>
-                  </label>
-                  <label for="lead-goal">
-                    Resultado que mais deseja
-                    <select id="lead-goal" name="goal">
-                      <option value="">Prefiro não informar</option>
-                      <option>Quero me posicionar</option>
-                      <option>Quero criar conteúdo com estratégia</option>
-                      <option>Quero monetizar meu conhecimento</option>
-                      <option>Quero fortalecer minha autoridade</option>
-                    </select>
-                  </label>
-                  <label for="lead-contact-period">
-                    Melhor período para contato
-                    <select id="lead-contact-period" name="preferredContactPeriod">
-                      <option value="">Prefiro não informar</option>
-                      <option>Manhã</option>
-                      <option>Tarde</option>
-                      <option>Noite</option>
-                    </select>
-                  </label>
-                </div>
-              </details>
-              <label class="consent-check">
-                <input type="checkbox" name="consentPrivacy" required aria-describedby="lead-consent-error" />
-                <span>
-                  Li e concordo com a <a href="/politica-de-privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.
-                </span>
-              </label>
-              <span class="field-error consent-error" id="lead-consent-error" data-error-for="consentPrivacy" aria-live="polite"></span>
-              <label class="consent-check consent-check--optional">
-                <input type="checkbox" name="consentMarketing" />
-                <span>Quero receber novidades, conteúdos e ofertas do Método Referência Cristã. (Opcional)</span>
-              </label>
-              <div class="honeypot-field" aria-hidden="true">
-                <label for="lead-website">Não preencha este campo</label>
-                <input id="lead-website" type="text" name="website" tabindex="-1" autocomplete="off" />
-              </div>
-              <button class="button" type="submit" data-track="LeadFormSubmit" disabled>
-                Confirmar minha inscrição gratuita
-              </button>
-              <p class="submit-status" aria-live="polite"></p>
-              <p class="form-note">
-                O aceite da política é obrigatório. Comunicações promocionais são opcionais. Consulte também os
-                <a href="/termos-de-uso" target="_blank" rel="noopener">Termos de Uso</a>.
-              </p>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      <section class="section intro" aria-labelledby="identificacao">
-        <div class="section-inner">
-          <div class="promise">
-            <p class="eyebrow">Esta aula é para você</p>
-            <h2 id="identificacao">Esta aula é para você que se identifica com pelo menos um destes pontos:</h2>
-          </div>
-
-          <div class="grid-2">
-            <article class="card">
-              <span class="icon">✓</span>
-              <h3>Seu valor ainda é pouco reconhecido</h3>
-              <p>
-                Você tem conhecimento, dons ou experiência — mas sente que pouquíssimas pessoas sabem o
-                valor real do que você faz.
-              </p>
-            </article>
-            <article class="card">
-              <span class="icon">✓</span>
-              <h3>Conteúdo não vira oportunidade</h3>
-              <p>
-                Você posta com constância — cria conteúdo, recebe curtidas… mas isso não vira oportunidade
-                nem renda.
-              </p>
-            </article>
-            <article class="card">
-              <span class="icon">✓</span>
-              <h3>Você quer crescer com ética</h3>
-              <p>
-                Você já tentou fórmulas prontas e “hacks” — e sabe que crescer de forma ética, atraindo o
-                público certo, é o único caminho sustentável.
-              </p>
-            </article>
-            <article class="card">
-              <span class="icon">✓</span>
-              <h3>Você quer reger seu próprio tempo</h3>
-              <p>
-                Transforme seu chamado em um negócio digital sólido, que constrói legado e não apenas likes.
-              </p>
-            </article>
-          </div>
-
-          <div class="not-for">
-            <span class="icon">!</span>
-            Esta aula não é para quem busca fórmula mágica, riqueza da noite para o dia ou estratégias que
-            exigem abrir mão dos seus valores. Aqui é estratégia real, com ética e consistência.
-          </div>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="passos">
-        <div class="section-inner">
-          <div class="promise">
-            <p class="eyebrow">O que você vai aprender</p>
-            <h2 id="passos">Os 3 Passos para Sair do Anonimato Digital</h2>
-          </div>
-
-          <div class="grid-3">
-            <article class="card">
-              <span class="icon">1</span>
-              <h3>Por que “vender mais” não resolve nada</h3>
-              <p>
-                Descubra por que postar de forma aleatória está afastando você do público certo e deixando
-                você exausto, sem retorno proporcional.
-              </p>
-            </article>
-            <article class="card">
-              <span class="icon">2</span>
-              <h3>Onde sua autoridade está se perdendo</h3>
-              <p>
-                Conheça os erros invisíveis na comunicação que fazem pessoas qualificadas ignorarem o que
-                você tem de mais valioso: seu conhecimento.
-              </p>
-            </article>
-            <article class="card">
-              <span class="icon">3</span>
-              <h3>O método para se tornar a referência do seu nicho</h3>
-              <p>
-                Saia da multidão de “criadores de conteúdo” e ocupe um lugar de autoridade, unindo marca
-                pessoal e conteúdo estratégico para gerar oportunidades reais com consistência.
-              </p>
-            </article>
-          </div>
-
-          <div class="not-for">
-            <span class="icon">✓</span>
-            Além dos três passos, você sairá da aula com um checklist prático de posicionamento para aplicar
-            ainda esta semana.
-          </div>
-        </div>
-      </section>
-
-      <section class="section pending-section" aria-labelledby="pendencias" hidden>
-        <div class="section-inner">
-          <div class="pending-head">
-            <div>
-              <p class="eyebrow">Painel de pendências</p>
-              <h2 id="pendencias">12 pontos reservados para preencher antes da publicação</h2>
-            </div>
-            <p>
-              A página já está estruturada para receber estas informações. Quando cada item estiver pronto,
-              basta substituir o placeholder correspondente.
-            </p>
-          </div>
-
-          <div class="grid-3">
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 01</span>
-              <h3>[NOME DO EVENTO]</h3>
-              <p>Título oficial da aula, masterclass ou encontro gratuito.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 02</span>
-              <h3>[DATA]</h3>
-              <p>Data principal do evento para hero, mockups e lembretes.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 03</span>
-              <h3>[HORÁRIO]</h3>
-              <p>Horário oficial, com fuso se necessário.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 04</span>
-              <h3>[LINK DA PÁGINA DE OBRIGADO]</h3>
-              <p>Destino após o envio do formulário.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Aplicado</span>
-              <h3>Link do grupo de WhatsApp configurado</h3>
-              <p>O acesso ao grupo oficial está disponível na Página de Obrigado.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Aplicado</span>
-              <h3>Fotos da expert adicionadas</h3>
-              <p>Imagem profissional aplicada no hero e na seção de autoridade.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 07</span>
-              <h3>[BIO DA EVELLYN]</h3>
-              <p>Mini-biografia com credenciais, atuação e posicionamento.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 08</span>
-              <h3>[PROVA/DEPOIMENTO]</h3>
-              <p>Prova real: números, cases, prints autorizados ou depoimentos.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 09</span>
-              <h3>Política de Privacidade configurada</h3>
-              <p>Documento publicado e conectado ao rodapé e ao consentimento do formulário.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 10</span>
-              <h3>[META PIXEL / CAPI]</h3>
-              <p>ID do pixel e configuração da API de conversões, se houver.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 11</span>
-              <h3>[GA4 / GTM]</h3>
-              <p>IDs de mensuração para eventos e origem de tráfego.</p>
-            </article>
-            <article class="card pending-card">
-              <span class="pending-tag">Pendente 12</span>
-              <h3>[INTEGRAÇÃO DO FORMULÁRIO]</h3>
-              <p>Webhook, CRM, automação de e-mail ou ferramenta de leads.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section dark-band authority" aria-labelledby="autoridade">
-        <div class="section-inner authority-wrap">
-          <div>
-            <p class="eyebrow">Sobre a expert</p>
-            <h2 id="autoridade">Quem é Evellyn Litke</h2>
-            <p>
-              Evellyn Litke é a criadora do Método Referência Cristã, uma metodologia desenvolvida para
-              ajudar cristãos a construírem posicionamento, autoridade digital, conteúdo estratégico e
-              marca pessoal com clareza, propósito e excelência.
-            </p>
-            <p>
-              Seu trabalho é direcionado a profissionais, prestadores de serviço, criadores e empreendedores
-              que desejam crescer na internet sem abrir mão da fé, da integridade e dos seus valores.
-            </p>
             <div class="carousel-sources" hidden aria-hidden="true">
               <img data-carousel-source src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png" alt="Evellyn Litke sorrindo em ensaio profissional" />
               <img data-carousel-source src="Imagens/c9014031-05fe-4cbc-8b55-edf7de0828d4.png" alt="Evellyn Litke em retrato sorrindo" />
@@ -396,46 +218,18 @@
               <img data-carousel-source src="Imagens/jhrdbgoau.png" alt="Evellyn Litke sorrindo em estúdio" />
             </div>
           </div>
-
-          <div class="expert-photo-pending">
-            <img
-              class="carousel-image"
-              data-carousel-image="authority"
-              src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
-              alt="Evellyn Litke sorrindo em ensaio profissional"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section class="section final-cta" aria-labelledby="cta-final">
-        <div class="section-inner">
-          <p class="eyebrow">Próximo passo</p>
-          <h2 id="cta-final">Você não precisa continuar invisível no digital</h2>
-          <p>
-            Se você sabe que tem algo valioso para compartilhar, este é o momento de aprender como comunicar
-            sua mensagem com clareza, autoridade e estratégia.
-          </p>
-          <a class="button" href="#inscricao" data-track="CTA_Click_Final">Quero participar do evento gratuito</a>
         </div>
       </section>
     </main>
 
     <footer>
+      <p>© 2026 Evellyn Litke · Método Referência Cristã</p>
       <p>
-        Seus dados serão usados para confirmar a inscrição e enviar orientações essenciais do evento.
-        Conteúdos e ofertas só serão enviados conforme a sua escolha opcional de marketing.
-      </p>
-      <p>
-        Copyright © 2026 Evellyn Litke - Todos os direitos reservados.
-        <a href="/politica-de-privacidade">Política de Privacidade</a> |
+        <a href="/politica-de-privacidade">Política de Privacidade</a>
+        <span aria-hidden="true">·</span>
         <a href="/termos-de-uso">Termos de Uso</a>
       </p>
     </footer>
-
-    <a class="button mobile-sticky" href="#inscricao" data-track="CTA_Click_Sticky">
-      Quero me inscrever gratuitamente
-    </a>
 
     <script type="module" src="/src/pages/captura.mjs"></script>
   </body>

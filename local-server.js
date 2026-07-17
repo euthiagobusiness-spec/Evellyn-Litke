@@ -13,14 +13,17 @@ const pageRoutes = new Map([
   ["/captura/", "index.html"],
   ["/upsell", "pagina-vendas.html"],
   ["/upsell/", "pagina-vendas.html"],
-  ["/obrigado", "obrigado.html"],
-  ["/obrigado/", "obrigado.html"],
-  ["/obrigado-inscricao", "obrigado.html"],
-  ["/obrigado-inscricao/", "obrigado.html"],
   ["/politica-de-privacidade", "politica-de-privacidade.html"],
   ["/politica-de-privacidade/", "politica-de-privacidade.html"],
   ["/termos-de-uso", "termos-de-uso.html"],
   ["/termos-de-uso/", "termos-de-uso.html"],
+]);
+
+const externalRedirects = new Map([
+  ["/obrigado", "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt"],
+  ["/obrigado/", "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt"],
+  ["/obrigado-inscricao", "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt"],
+  ["/obrigado-inscricao/", "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt"],
 ]);
 
 const contentTypes = {
@@ -65,6 +68,13 @@ const server = http.createServer((request, response) => {
     return;
   }
 
+  const externalRedirect = externalRedirects.get(pathname);
+  if (externalRedirect) {
+    response.writeHead(302, { Location: externalRedirect });
+    response.end();
+    return;
+  }
+
   const routedPage = pageRoutes.get(pathname);
   if (routedPage) {
     sendFile(response, path.join(projectRoot, routedPage));
@@ -85,5 +95,5 @@ server.listen(port, host, () => {
   console.log(`Funil disponível em http://${host}:${port}`);
   console.log(`Captura:  http://${host}:${port}/`);
   console.log(`Upsell:   http://${host}:${port}/upsell`);
-  console.log(`Obrigado: http://${host}:${port}/obrigado-inscricao`);
+  console.log("Pós-cadastro: redirecionamento direto ao grupo do WhatsApp");
 });

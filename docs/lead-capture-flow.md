@@ -7,7 +7,7 @@
 5. O telefone é normalizado para E.164 e o e-mail para minúsculas.
 6. O RPC faz upsert atômico, registra dados opcionais, consentimentos e o evento de captura.
 7. A resposta contém somente uma referência UUID opaca, guardada em `sessionStorage`.
-8. Somente após sucesso o navegador abre `/obrigado-inscricao`.
-9. A página registra a visualização e o clique no WhatsApp sem colocar PII na URL.
+8. Somente após sucesso o navegador registra o evento `whatsapp_clicked` e abre diretamente o grupo oficial.
+9. Nenhum dado pessoal é colocado na URL e não existe uma página intermediária de confirmação.
 
 Falhas de rede ou backend mantêm o usuário no formulário, reabilitam o botão e exibem mensagem amigável. Duplo clique é bloqueado no cliente e a deduplicação também ocorre no banco.

@@ -7,7 +7,6 @@ module.exports = defineConfig({
       input: {
         captura: path.resolve(__dirname, "index.html"),
         upsell: path.resolve(__dirname, "pagina-vendas.html"),
-        obrigado: path.resolve(__dirname, "obrigado.html"),
         privacidade: path.resolve(__dirname, "politica-de-privacidade.html"),
         termos: path.resolve(__dirname, "termos-de-uso.html"),
       },

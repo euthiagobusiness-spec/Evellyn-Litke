@@ -2,7 +2,7 @@
   "name": "funil-evellyn-litke",
   "version": "1.0.0",
   "private": true,
-  "description": "Funil único com páginas de captura, upsell e obrigado.",
+  "description": "Funil único com captura direta, upsell e documentos legais.",
   "scripts": {
     "dev": "node local-server.js",
     "build": "vite build",

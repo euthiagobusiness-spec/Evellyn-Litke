@@ -1,11 +1,16 @@
 import { bindTrackedElements, trackEvent } from "../lib/analytics.mjs";
+import { SITE_CONFIG } from "../config.mjs";
 import { initCaptureCarousel } from "../lib/capture-carousel.mjs";
 import {
   getSelectedCountry,
   normalizeCallingCode,
   populateCountrySelect,
 } from "../lib/country-codes.mjs";
-import { callFunction, FunnelApiError } from "../lib/funnel-api.mjs";
+import {
+  callFunction,
+  FunnelApiError,
+  trackFunnelEvent,
+} from "../lib/funnel-api.mjs";
 import { getOrCreateSessionId, saveLeadReference } from "../lib/lead-session.mjs";
 import {
   setMetaMarketingConsent,
@@ -68,11 +73,10 @@ function setFieldError(field, message = "") {
 
 function validate({ showErrors = false } = {}) {
   const result = validateLeadFields(currentFields());
-  if (showErrors) {
-    ["name", "email", "phone", "consentPrivacy"].forEach((field) => {
-      setFieldError(field, result.errors[field] ?? "");
-    });
-  }
+  ["name", "email", "phone", "consentPrivacy"].forEach((field) => {
+    const message = result.errors[field] ?? "";
+    if (showErrors || !message) setFieldError(field, message);
+  });
   submitButton.disabled = submitting || !result.valid;
   return result;
 }
@@ -204,8 +208,15 @@ if (form) {
       setMetaMarketingConsent(consentMarketing);
       if (consentMarketing) trackMetaLead(response.leadReference);
       trackEvent("Lead", { page: "captura" });
-      status.textContent = "Inscrição confirmada. Redirecionando...";
-      window.location.assign(form.dataset.nextPath);
+      trackEvent("WhatsAppRedirect", { page: "captura" });
+      status.textContent = "Inscrição confirmada. Abrindo o grupo oficial...";
+      trackFunnelEvent("whatsapp_clicked", response.leadReference, sessionId, {
+        timeoutMs: 1_200,
+        keepalive: true,
+      }).catch(() => {
+        // A telemetria nunca deve impedir o acesso ao grupo.
+      });
+      window.location.assign(SITE_CONFIG.whatsappGroupUrl);
     } catch (error) {
       status.textContent = humanError(error);
       status.classList.add("is-error");

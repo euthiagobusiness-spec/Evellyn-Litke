@@ -5,8 +5,13 @@
   "redirects": [
     {
       "source": "/obrigado",
-      "destination": "/obrigado-inscricao",
-      "permanent": true
+      "destination": "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt",
+      "permanent": false
+    },
+    {
+      "source": "/obrigado-inscricao",
+      "destination": "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt",
+      "permanent": false
     }
   ],
   "rewrites": [
@@ -17,10 +22,6 @@
     {
       "source": "/upsell",
       "destination": "/pagina-vendas"
-    },
-    {
-      "source": "/obrigado-inscricao",
-      "destination": "/obrigado"
     }
   ]
 }

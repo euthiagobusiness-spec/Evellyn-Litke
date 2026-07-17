@@ -1,15 +1,14 @@
 # Funil Evellyn Litke
 
-Projeto único e modular com captura de leads, página de oferta, confirmação de inscrição e documentos legais. O front-end é estático (Vite/Vercel) e toda operação privilegiada acontece em Edge Functions do Supabase.
+Projeto único e modular com captura de leads, página de oferta e documentos legais. O front-end é estático (Vite/Vercel) e toda operação privilegiada acontece em Edge Functions do Supabase.
 
 ## Rotas
 
 - `/` e `/captura`: página de captura
-- `/obrigado-inscricao`: confirmação e acesso ao grupo de WhatsApp
 - `/upsell`: página de oferta
 - `/politica-de-privacidade` e `/termos-de-uso`: documentos legais
 
-As páginas não são ligadas por uma navegação principal. O formulário só redireciona para `/obrigado-inscricao` depois que o Supabase confirma a gravação.
+As páginas não são ligadas por uma navegação principal. Depois que o Supabase confirma a gravação, o formulário encaminha o lead diretamente ao grupo oficial do WhatsApp. As antigas rotas `/obrigado` e `/obrigado-inscricao` também redirecionam para o grupo, sem manter uma página intermediária.
 
 ## Desenvolvimento
 
