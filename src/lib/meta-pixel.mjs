@@ -1,5 +1,5 @@
 const META_PIXEL_ID = "888359477674276";
-const MARKETING_CONSENT_KEY = "mrc.marketingConsent";
+const MEASUREMENT_CONSENT_KEY = "mrc.adsMeasurementConsent";
 
 function hasWindow() {
   return typeof window !== "undefined" && typeof document !== "undefined";
@@ -8,7 +8,7 @@ function hasWindow() {
 function readConsent() {
   if (!hasWindow()) return false;
   try {
-    return window.localStorage.getItem(MARKETING_CONSENT_KEY) === "granted";
+    return window.localStorage.getItem(MEASUREMENT_CONSENT_KEY) === "granted";
   } catch {
     return false;
   }
@@ -17,8 +17,8 @@ function readConsent() {
 function writeConsent(granted) {
   if (!hasWindow()) return;
   try {
-    if (granted) window.localStorage.setItem(MARKETING_CONSENT_KEY, "granted");
-    else window.localStorage.removeItem(MARKETING_CONSENT_KEY);
+    if (granted) window.localStorage.setItem(MEASUREMENT_CONSENT_KEY, "granted");
+    else window.localStorage.removeItem(MEASUREMENT_CONSENT_KEY);
   } catch {
     // O funil continua funcionando quando o armazenamento está indisponível.
   }
@@ -45,10 +45,10 @@ function installPixelRuntime() {
 }
 
 function prepareMetaPixel() {
-  if (!hasWindow()) return false;
+  if (!hasWindow() || !readConsent()) return false;
   installPixelRuntime();
   if (!window.__mrcMetaPixelInitialized) {
-    window.fbq("consent", readConsent() ? "grant" : "revoke");
+    window.fbq("consent", "grant");
     window.fbq("init", META_PIXEL_ID);
     window.__mrcMetaPixelInitialized = true;
   }
@@ -56,7 +56,7 @@ function prepareMetaPixel() {
 }
 
 export function initMetaPixel() {
-  if (!prepareMetaPixel() || !readConsent()) return false;
+  if (!readConsent() || !prepareMetaPixel()) return false;
 
   window.fbq("consent", "grant");
   if (!window.__mrcMetaPageViewTracked) {
@@ -66,19 +66,26 @@ export function initMetaPixel() {
   return true;
 }
 
-export function setMetaMarketingConsent(granted) {
-  writeConsent(Boolean(granted));
-  prepareMetaPixel();
-  if (granted) initMetaPixel();
-  else window.fbq?.("consent", "revoke");
+export function hasMetaMeasurementConsent() {
+  return readConsent();
 }
 
-export function trackMetaLead(leadReference) {
-  if (!leadReference || !initMetaPixel()) return;
+export function setMetaMeasurementConsent(granted) {
+  writeConsent(Boolean(granted));
+  if (granted) {
+    initMetaPixel();
+  } else if (hasWindow()) {
+    window.fbq?.("consent", "revoke");
+  }
+}
+
+export function trackMetaLead(eventId) {
+  if (!eventId || !initMetaPixel()) return;
   window.fbq("track", "Lead", {}, {
-    eventID: `${leadReference}:lead`,
+    eventID: eventId,
   });
 }
 
-prepareMetaPixel();
+// Cada visita exige uma nova escolha visivel; nenhuma opcao facultativa nasce marcada.
+writeConsent(false);
 initMetaPixel();

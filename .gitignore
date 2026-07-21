@@ -4,6 +4,9 @@
 
 # Evidências e capturas de testes locais
 output/
+backups/
+.playwright-cli/
+tmp/
 
 # Metadados internos do ambiente Codex
 .agents/

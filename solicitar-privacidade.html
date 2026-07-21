@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,follow" />
+    <meta name="theme-color" content="#120a06" />
+    <link rel="icon" type="image/png" href="/assets/favicon.png" />
+    <link rel="stylesheet" href="/privacy-request.css" />
+    <title>Solicitação de Privacidade | Método Referência Cristã</title>
+  </head>
+  <body>
+    <main class="privacy-page">
+      <section class="privacy-card" aria-labelledby="privacy-title">
+        <p class="eyebrow">Privacidade e proteção de dados</p>
+        <h1 id="privacy-title">Exerça seus direitos sobre seus dados</h1>
+        <p class="intro">
+          Solicite acesso, correção, exclusão, portabilidade ou retirada de consentimento.
+          Confirmaremos sua identidade antes de atender ao pedido.
+        </p>
+
+        <form data-privacy-request novalidate>
+          <label>
+            O que você deseja solicitar?
+            <select name="requestType" required>
+              <option value="access">Acesso aos meus dados</option>
+              <option value="correction">Correção de dados</option>
+              <option value="deletion">Exclusão de dados</option>
+              <option value="portability">Portabilidade</option>
+              <option value="withdrawal">Retirada de consentimento</option>
+            </select>
+          </label>
+
+          <label>
+            Nome completo
+            <input name="name" autocomplete="name" maxlength="120" required />
+          </label>
+
+          <label>
+            E-mail usado no cadastro
+            <input name="email" type="email" autocomplete="email" maxlength="254" required />
+          </label>
+
+          <label>
+            Detalhes do pedido <span>(opcional)</span>
+            <textarea name="details" rows="4" maxlength="1000" placeholder="Explique o que precisa ser corrigido ou informe algum contexto útil."></textarea>
+          </label>
+
+          <label class="consent">
+            <input type="checkbox" name="consentPrivacy" required />
+            <span>
+              Autorizo o tratamento destes dados somente para verificar minha identidade e responder a esta solicitação, conforme a
+              <a href="/politica-de-privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.
+            </span>
+          </label>
+
+          <div class="honeypot" aria-hidden="true">
+            <label>Não preencha <input name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
+          <button type="submit">Enviar solicitação</button>
+          <p class="status" data-request-status aria-live="polite"></p>
+        </form>
+
+        <p class="legal-note">
+          O envio não elimina dados automaticamente. Pedidos ficam pendentes até a confirmação segura da identidade do titular.
+        </p>
+        <a class="back-link" href="/politica-de-privacidade">Voltar à Política de Privacidade</a>
+      </section>
+    </main>
+    <script type="module" src="/src/pages/privacy-request.mjs"></script>
+  </body>
+</html>

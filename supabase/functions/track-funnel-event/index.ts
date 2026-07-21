@@ -56,7 +56,9 @@ Deno.serve(async (request: Request) => {
       p_lead_reference: payload.leadReference,
       p_event_name: payload.eventName,
       p_page: payload.page ?? "",
-      p_session_id: payload.sessionId ?? "",
+      // O lead_id ja liga o evento ao funil. Nao persistimos uma sessao
+      // adicional neste endpoint para reduzir identificadores derivados.
+      p_session_id: "",
       p_metadata: payload.metadata,
     });
 
@@ -76,7 +78,7 @@ Deno.serve(async (request: Request) => {
 
     return jsonResponse(request, 200, {
       success: true,
-      whatsappUrl: getWhatsappGroupUrl(),
+      whatsappUrl: await getWhatsappGroupUrl(supabase),
     });
   } catch (error) {
     if (error instanceof HttpError) {

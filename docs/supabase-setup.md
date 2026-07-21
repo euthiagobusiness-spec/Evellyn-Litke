@@ -1,59 +1,139 @@
 # Configuração do Supabase
 
-Projeto atual: `Evellyn-Litke` (`zsrgdjzouhykatrypdmr`).
+Projeto atual: `Evellyn-Litke` (`zsrgdjzouhykatrypdmr`). As migrations em `supabase/migrations` são a fonte de verdade.
 
-## Banco
-
-As migrations em `supabase/migrations` são a fonte de verdade. Para um novo ambiente:
+## Aplicar banco e validar
 
 ```powershell
-npx supabase link --project-ref SEU_PROJECT_REF
-npx supabase db push
+npx supabase@latest link --project-ref SEU_PROJECT_REF
+npx supabase@latest db push
+npx supabase@latest migration list
+npx supabase@latest db advisors --type security
+npx supabase@latest db advisors --type performance
 ```
 
-Não execute DDL manual fora de migrations. Depois de qualquer mudança, gere novamente os tipos e rode os advisors de segurança/performance.
+O ambiente local requer Docker Desktop. Sem Docker, use uma branch de banco do Supabase antes da produção. Não execute DDL avulso no projeto principal.
 
 ## Edge Functions
 
-Endpoints publicados:
-
-- `create-lead`: valida, normaliza, limita tentativas, grava o lead e os consentimentos.
-- `track-funnel-event`: registra etapas do funil usando somente a referência pública opaca do lead.
-
-Deploy em outro projeto:
-
 ```powershell
-npx supabase functions deploy create-lead --no-verify-jwt
-npx supabase functions deploy track-funnel-event --no-verify-jwt
+npx supabase@latest functions deploy create-lead --no-verify-jwt
+npx supabase@latest functions deploy track-funnel-event --no-verify-jwt
+npx supabase@latest functions deploy collect-funnel-event --no-verify-jwt
+npx supabase@latest functions deploy privacy-request --no-verify-jwt
+npx supabase@latest functions deploy funnel-dashboard --no-verify-jwt
+npx supabase@latest functions deploy process-meta-outbox --no-verify-jwt
 ```
 
-As funções são públicas porque recebem visitantes anônimos, mas aplicam allowlist de origem, limite de payload, validação server-side, honeypot, rate limit persistente e acesso ao banco apenas pelo backend.
+`verify_jwt=false` é intencional: captura, eventos e solicitações LGPD recebem visitantes anônimos; dashboard/worker usam autenticação própria. Todas as funções ainda aplicam validação server-side, allowlist de origem, limite de payload e least privilege.
 
-## Secrets obrigatórios
+## Secrets
 
-Para conversões server-side do Meta Ads, configure também no painel do Supabase:
+Obrigatórios:
 
-- `META_PIXEL_ID`: ID do Pixel.
-- `META_CONVERSIONS_API_TOKEN`: token da Conversions API.
-- `META_GRAPH_API_VERSION` (opcional): versão da Graph API; padrão `v20.0`.
+- `SITE_URL=https://www.eventomrc.com.br`
+- `ALLOWED_ORIGINS=https://eventomrc.com.br,https://www.eventomrc.com.br`
+- `WHATSAPP_GROUP_URL`: convite oficial opcional como Edge Secret. Na operação atual, o convite fica em `private.funnel_settings` e é lido somente por `service_role`.
+- `PRIVACY_POLICY_VERSION`: versão visível ao titular.
+- `IP_HASH_SALT`: valor aleatório com pelo menos 24 caracteres.
 
-O `create-lead` envia o evento `Lead` somente quando há consentimento de marketing. E-mail, telefone, nome, país e referência pública são normalizados e submetidos com SHA-256; o token nunca chega ao navegador.
+Meta CAPI:
 
-- `SITE_URL`: URL principal de produção.
-- `ALLOWED_ORIGINS`: URLs adicionais separadas por vírgula.
-- `WHATSAPP_GROUP_URL`: convite oficial.
-- `PRIVACY_POLICY_VERSION`: versão exibida ao titular.
-- `IP_HASH_SALT`: segredo aleatório longo; não versionar.
+- `META_PIXEL_ID`
+- `META_CONVERSIONS_API_TOKEN`
+- `META_GRAPH_API_VERSION` (padrão de compatibilidade: `v23.0`; mantenha explícito e revise antes de cada lançamento)
+- `CAPI_WORKER_TOKEN`: token opaco com 32+ caracteres para o processador agendado.
 
-Opcional: `TURNSTILE_SECRET_KEY`. Quando configurado, o front-end também deve enviar `turnstileToken`.
+O token CAPI que já apareceu em conversa, log ou documento deve ser revogado e substituído. Nunca use segredo em `VITE_*`, HTML, JavaScript do navegador ou migration.
 
-O Supabase injeta `SUPABASE_URL` e a credencial privilegiada no runtime. Nunca use credencial privilegiada em `VITE_*`, HTML ou JavaScript entregue ao navegador.
+Dashboard:
 
-## Vercel
+- Gere um token criptograficamente forte fora do banco.
+- Armazene somente SHA-256 em `private.dashboard_access_tokens`.
+- Nunca use token plaintext em variável pública, HTML ou Git.
 
-```powershell
-npm run check
-npx vercel@latest deploy --prod --yes
+Para cadastrar um acesso rotacionável, calcule SHA-256 localmente e insira apenas o hash:
+
+```sql
+insert into private.dashboard_access_tokens (token_hash, label, expires_at)
+values ('HASH_SHA256_DE_64_HEXADECIMAIS', 'gestor-trafego', now() + interval '30 days');
 ```
 
-Depois do deploy, inclua qualquer novo domínio em `ALLOWED_ORIGINS` antes de testar a captura.
+Para revogar:
+
+```sql
+update private.dashboard_access_tokens
+set active = false
+where token_hash = 'HASH_SHA256_DE_64_HEXADECIMAIS';
+```
+
+## Contratos
+
+### `create-lead`
+
+Recebe `idempotencyKey` e `eventId` UUID, além do formulário, consentimentos e atribuição. Também aceita `X-Idempotency-Key`. Retorna:
+
+```json
+{
+  "success": true,
+  "leadReference": "uuid-opaco",
+  "leadAction": "created",
+  "eventId": "uuid-compartilhado-com-o-pixel",
+  "conversionEligible": true,
+  "whatsappUrl": "convite-retornado-somente-apos-cadastro-valido",
+  "idempotentReplay": false
+}
+```
+
+### `collect-funnel-event`
+
+POST público, sem PII:
+
+```json
+{
+  "eventName": "LandingView",
+  "eventId": "uuid",
+  "leadReference": null,
+  "sessionId": "uuid-da-sessao",
+  "page": "/",
+  "occurredAt": "2026-07-20T12:00:00.000Z",
+  "utm": { "source": "facebook", "campaign": "campanha" },
+  "metadata": { "viewport": "390x844", "locale": "pt-BR" },
+  "consentAnalytics": false,
+  "website": ""
+}
+```
+
+Eventos públicos: `LandingView`, `FormStart`, `ValidationError`, `SubmitAttempt`, `LeadSaved`, `RedirectStarted`, `RedirectUnique`, `WebVital` e `ApiRequest`.
+
+### `funnel-dashboard`
+
+`Authorization: Bearer <token>`.
+
+- GET `?days=7`: retorna `summary`, `funnel`, `daily`, `campaigns`, `health`, `groupSnapshots` e `alerts`, sempre agregados.
+- POST `{ "action":"group_snapshot", "count":77, "note":"21h" }`.
+- POST `{ "action":"import_meta", "rows":[...] }` com dados agregados por dia/campanha/anúncio.
+
+### `privacy-request`
+
+POST público:
+
+```json
+{
+  "requestType": "access",
+  "name": "Nome do titular",
+  "email": "titular@example.com",
+  "phoneE164": "+5592999999999",
+  "details": "Informações adicionais",
+  "consentPrivacy": true,
+  "website": ""
+}
+```
+
+`requestType`: `access`, `correction`, `deletion`, `withdrawal` ou `portability`. Retorna `requestReference` e nunca entrega dados antes da verificação de identidade.
+
+## Worker CAPI
+
+`create-lead` tenta processar o próprio evento em background. Para retries, agende `process-meta-outbox` a cada minuto. A documentação oficial recomenda `pg_cron` + `pg_net`, com URL/token guardados no Supabase Vault. Não grave o worker token dentro do texto do cron.
+
+Depois de aplicar a migration, confira `pending`, `retry` e `dead` no dashboard e mantenha a taxa de falha abaixo de 5%.

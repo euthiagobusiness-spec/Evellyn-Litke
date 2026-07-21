@@ -18,7 +18,7 @@
       <section class="capture-hero" id="topo" aria-labelledby="capture-title">
         <div class="hero-shell">
           <div class="hero-content">
-            <p class="eyebrow">Aula gratuita · inscrições abertas</p>
+            <p class="eyebrow">Aula gratuita · 26 de julho · online</p>
 
             <h1 id="capture-title">
               <span>Pare de Ser Invisível na Internet.</span>
@@ -67,8 +67,29 @@
                 <div class="phone-fieldset" role="group" aria-labelledby="lead-phone-label">
                   <span class="sr-only" id="lead-phone-label">WhatsApp</span>
                   <div class="phone-grid">
-                    <label class="sr-only" for="lead-country">País e DDI</label>
-                    <select id="lead-country" name="countryIso" autocomplete="country" aria-label="País e DDI"></select>
+                    <div class="country-combobox">
+                      <label class="sr-only" for="lead-country-search">Buscar país ou DDI</label>
+                      <input
+                        id="lead-country-search"
+                        type="search"
+                        data-country-search
+                        role="combobox"
+                        aria-autocomplete="list"
+                        aria-expanded="false"
+                        aria-controls="lead-country-options"
+                        placeholder="Buscar país ou DDI"
+                        autocomplete="off"
+                      />
+                      <div
+                        class="country-options"
+                        id="lead-country-options"
+                        data-country-options
+                        role="listbox"
+                        hidden
+                      ></div>
+                      <label class="sr-only" for="lead-country">País e DDI selecionado</label>
+                      <select id="lead-country" name="countryIso" autocomplete="country" tabindex="-1" aria-hidden="true" hidden></select>
+                    </div>
                     <label class="sr-only" for="lead-phone">Número do WhatsApp</label>
                     <input
                       id="lead-phone"
@@ -89,78 +110,6 @@
                   <span class="field-error" id="lead-phone-error" data-error-for="phone" aria-live="polite"></span>
                 </div>
 
-                <details class="optional-profile">
-                  <summary>
-                    <span>Personalizar minha experiência</span>
-                    <small>Opcional</small>
-                  </summary>
-                  <div class="optional-fields">
-                    <label for="lead-business-stage">
-                      Em que fase você está?
-                      <select id="lead-business-stage" name="businessStage">
-                        <option value="">Prefiro não informar</option>
-                        <option>Ainda não comecei</option>
-                        <option>Estou começando</option>
-                        <option>Já vendo pela internet</option>
-                        <option>Tenho um negócio consolidado</option>
-                      </select>
-                    </label>
-                    <label for="lead-niche">
-                      Nicho ou área de atuação
-                      <input id="lead-niche" type="text" name="niche" placeholder="Ex.: consultoria, saúde, educação" maxlength="120" />
-                    </label>
-                    <label for="lead-instagram">
-                      Instagram ou perfil principal
-                      <input id="lead-instagram" type="text" name="instagramHandle" placeholder="Ex.: @seuperfil" maxlength="160" autocapitalize="none" />
-                    </label>
-                    <label for="lead-audience-size">
-                      Tamanho da sua audiência
-                      <select id="lead-audience-size" name="audienceSize">
-                        <option value="">Prefiro não informar</option>
-                        <option>Ainda não tenho audiência</option>
-                        <option>Até 1 mil seguidores</option>
-                        <option>De 1 mil a 5 mil</option>
-                        <option>De 5 mil a 20 mil</option>
-                        <option>Mais de 20 mil</option>
-                      </select>
-                    </label>
-                    <label for="lead-challenge">
-                      Maior desafio hoje
-                      <select id="lead-challenge" name="biggestChallenge">
-                        <option value="">Prefiro não informar</option>
-                        <option>Não sei o que comunicar</option>
-                        <option>Produzo conteúdo, mas não cresço</option>
-                        <option>Tenho audiência, mas não vendo</option>
-                        <option>Não tenho constância</option>
-                        <option>Tenho dificuldade em me posicionar</option>
-                      </select>
-                    </label>
-                    <label for="lead-goal">
-                      Resultado que mais deseja
-                      <select id="lead-goal" name="goal">
-                        <option value="">Prefiro não informar</option>
-                        <option>Quero me posicionar</option>
-                        <option>Quero criar conteúdo com estratégia</option>
-                        <option>Quero monetizar meu conhecimento</option>
-                        <option>Quero fortalecer minha autoridade</option>
-                      </select>
-                    </label>
-                    <label for="lead-contact-period">
-                      Melhor período para contato
-                      <select id="lead-contact-period" name="preferredContactPeriod">
-                        <option value="">Prefiro não informar</option>
-                        <option>Manhã</option>
-                        <option>Tarde</option>
-                        <option>Noite</option>
-                      </select>
-                    </label>
-                    <label class="consent-check consent-check--optional">
-                      <input type="checkbox" name="consentMarketing" />
-                      <span>Quero receber novidades, conteúdos e ofertas. (Opcional)</span>
-                    </label>
-                  </div>
-                </details>
-
                 <label class="consent-check">
                   <input type="checkbox" name="consentPrivacy" required aria-describedby="lead-consent-error" />
                   <span>
@@ -170,53 +119,87 @@
                 </label>
                 <span class="field-error consent-error" id="lead-consent-error" data-error-for="consentPrivacy" aria-live="polite"></span>
 
+                <div class="optional-consents" aria-label="Preferências opcionais">
+                  <label class="consent-check consent-check--optional">
+                    <input type="checkbox" name="consentMarketing" />
+                    <span>Quero receber novidades por e-mail e WhatsApp. <strong>(Opcional)</strong></span>
+                  </label>
+                  <label class="consent-check consent-check--optional">
+                    <input type="checkbox" name="consentAnalytics" />
+                    <span>Autorizo Meta Pixel e CAPI para medir e melhorar anúncios. <strong>(Opcional)</strong></span>
+                  </label>
+                </div>
+
                 <div class="honeypot-field" aria-hidden="true">
                   <label for="lead-website">Não preencha este campo</label>
                   <input id="lead-website" type="text" name="website" tabindex="-1" autocomplete="off" />
                 </div>
 
-                <button class="button hero-submit" type="submit" data-track="LeadFormSubmit" disabled>
-                  Quero me inscrever gratuitamente
+                <button class="button hero-submit" type="submit" disabled>
+                  Quero minha vaga gratuita para 26/07
                 </button>
                 <p class="submit-status" aria-live="polite"></p>
+                <a
+                  class="whatsapp-fallback"
+                  data-whatsapp-fallback
+                  rel="noopener"
+                  hidden
+                >N&#227;o abriu automaticamente? Entrar no grupo oficial</a>
                 <p class="form-note">
                   Cadastro seguro. Consulte os
                   <a href="/termos-de-uso" target="_blank" rel="noopener">Termos de Uso</a>.
+                  Ao entrar no grupo, seu nome, foto e n&#250;mero podem ficar vis&#237;veis aos participantes, conforme as regras do WhatsApp.
                 </p>
               </form>
             </div>
 
             <div class="event-strip" aria-label="Informações do evento">
-              <span class="event-pill"><span class="event-icon">D</span>26 de julho</span>
-              <span class="event-pill"><span class="event-icon">▶</span>YouTube + Instagram</span>
-              <span class="event-pill"><span class="event-icon">O</span>Online e gratuito</span>
+              <span class="event-pill"><span class="event-icon" aria-hidden="true">26</span>26 de julho</span>
+              <span class="event-pill"><span class="event-icon" aria-hidden="true">▶</span>YouTube + Instagram</span>
+              <span class="event-pill"><span class="event-icon" aria-hidden="true">●</span>Online e gratuito</span>
             </div>
           </div>
 
           <div class="hero-visual" aria-label="Evellyn Litke, criadora do Método Referência Cristã">
             <div class="portrait-frame">
-              <img
-                class="carousel-image"
-                data-carousel-image="hero"
-                src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png"
-                alt="Evellyn Litke sorrindo em ensaio profissional"
-              />
+              <picture data-carousel-picture>
+                <source
+                  type="image/avif"
+                  srcset="
+                    assets/portraits/evellyn-hero-360.avif 360w,
+                    assets/portraits/evellyn-hero-480.avif 480w,
+                    assets/portraits/evellyn-hero-768.avif 768w,
+                    assets/portraits/evellyn-hero-1086.avif 1086w
+                  "
+                  sizes="(max-width: 640px) 260px, (max-width: 980px) 480px, 470px"
+                />
+                <source
+                  type="image/webp"
+                  srcset="
+                    assets/portraits/evellyn-hero-360.webp 360w,
+                    assets/portraits/evellyn-hero-480.webp 480w,
+                    assets/portraits/evellyn-hero-768.webp 768w,
+                    assets/portraits/evellyn-hero-1086.webp 1086w
+                  "
+                  sizes="(max-width: 640px) 260px, (max-width: 980px) 480px, 470px"
+                />
+                <img
+                  class="carousel-image"
+                  data-carousel-image="hero"
+                  src="assets/portraits/evellyn-hero-768.webp"
+                  width="768"
+                  height="1024"
+                  fetchpriority="high"
+                  decoding="async"
+                  alt="Evellyn Litke sorrindo em ensaio profissional"
+                />
+              </picture>
               <div class="hero-signature" aria-hidden="true">
                 <strong>MRC</strong>
                 <span>Método Referência Cristã</span>
               </div>
             </div>
             <div class="carousel-progress" aria-hidden="true"><span></span></div>
-
-            <div class="carousel-sources" hidden aria-hidden="true">
-              <img data-carousel-source src="Imagens/999cbb24-1371-4e96-a33a-cd900cb7f343.png" alt="Evellyn Litke sorrindo em ensaio profissional" />
-              <img data-carousel-source src="Imagens/c9014031-05fe-4cbc-8b55-edf7de0828d4.png" alt="Evellyn Litke em retrato sorrindo" />
-              <img data-carousel-source src="Imagens/f9ca382c-0ea4-4e58-ad82-cb79613ef675.png" alt="Evellyn Litke escrevendo em um caderno" />
-              <img data-carousel-source src="Imagens/IMG_0223.JPG" alt="Retrato profissional de Evellyn Litke" />
-              <img data-carousel-source src="Imagens/IMG_0224.JPG" alt="Evellyn Litke em foto profissional de corpo inteiro" />
-              <img data-carousel-source src="Imagens/IMG_0225.JPG" alt="Evellyn Litke em pose profissional de corpo inteiro" />
-              <img data-carousel-source src="Imagens/jhrdbgoau.png" alt="Evellyn Litke sorrindo em estúdio" />
-            </div>
           </div>
         </div>
       </section>

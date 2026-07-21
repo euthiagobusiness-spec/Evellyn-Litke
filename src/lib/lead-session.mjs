@@ -17,6 +17,14 @@ function safeSessionSet(key, value) {
   }
 }
 
+function safeSessionRemove(key) {
+  try {
+    window.sessionStorage.removeItem(key);
+  } catch {
+    // Sem armazenamento, nao existe identificador a remover.
+  }
+}
+
 export function getOrCreateSessionId() {
   const existing = safeSessionGet(SESSION_ID_KEY);
   if (existing) return existing;
@@ -26,6 +34,10 @@ export function getOrCreateSessionId() {
     `session-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   safeSessionSet(SESSION_ID_KEY, value);
   return value;
+}
+
+export function clearSessionId() {
+  safeSessionRemove(SESSION_ID_KEY);
 }
 
 export function saveLeadReference(reference) {

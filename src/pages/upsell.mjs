@@ -1,17 +1,18 @@
 import { SITE_CONFIG } from "../config.mjs";
-import { trackEvent } from "../lib/analytics.mjs";
+import { hasAnalyticsConsent, trackEvent } from "../lib/analytics.mjs";
 import { trackFunnelEvent } from "../lib/funnel-api.mjs";
 import { getLeadReference, getOrCreateSessionId } from "../lib/lead-session.mjs";
 
 const leadReference = getLeadReference();
 const sessionId = getOrCreateSessionId();
+const consentedSessionId = hasAnalyticsConsent() ? sessionId : null;
 const checkoutUrl = SITE_CONFIG.upsellCheckoutUrl;
 const checkoutStatus = document.querySelector("[data-checkout-status]");
 const ctas = document.querySelectorAll("[data-upsell-cta]");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 trackEvent("upsell_viewed", { page: "imersao_referencia_crista" });
-trackFunnelEvent("upsell_viewed", leadReference, sessionId).catch(() => {});
+trackFunnelEvent("upsell_viewed", leadReference, consentedSessionId).catch(() => {});
 
 function configureCheckoutLink(link) {
   if (checkoutUrl) {
@@ -36,7 +37,7 @@ ctas.forEach((cta) => {
 
   cta.addEventListener("click", (event) => {
     trackEvent(cta.dataset.track, { page: "imersao_referencia_crista" });
-    trackFunnelEvent("checkout_clicked", leadReference, sessionId, {
+    trackFunnelEvent("checkout_clicked", leadReference, consentedSessionId, {
       timeoutMs: 1_200,
       keepalive: true,
     }).catch(() => {});

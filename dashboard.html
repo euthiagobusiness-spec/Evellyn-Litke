@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="theme-color" content="#100a07" />
+    <title>Central de performance | MRC</title>
+    <link rel="icon" href="/assets/favicon.png" />
+    <link rel="stylesheet" href="/dashboard.css" />
+  </head>
+  <body>
+    <noscript>
+      <p class="noscript">Ative o JavaScript para acessar a central de performance.</p>
+    </noscript>
+
+    <main class="dashboard-shell">
+      <section class="access-panel" data-auth-panel aria-labelledby="access-title">
+        <div class="brand-mark" aria-hidden="true">MRC</div>
+        <p class="eyebrow">Acesso restrito</p>
+        <h1 id="access-title">Central de performance</h1>
+        <p>
+          Dados agregados do funil, sem nome, e-mail ou telefone. Use o token operacional
+          fornecido ao gestor ou analista.
+        </p>
+        <form class="access-form" data-auth-form>
+          <label for="dashboard-token">Token de acesso</label>
+          <div class="token-row">
+            <input
+              id="dashboard-token"
+              name="token"
+              type="password"
+              autocomplete="current-password"
+              spellcheck="false"
+              required
+            />
+            <button type="submit">Entrar</button>
+          </div>
+          <p class="form-status" data-auth-status role="status" aria-live="polite"></p>
+        </form>
+        <p class="security-note">O token fica somente nesta aba e nunca é incluído no código da página.</p>
+      </section>
+
+      <div class="workspace" data-dashboard hidden>
+        <header class="dashboard-header">
+          <div class="brand-lockup">
+            <span class="brand-mark brand-mark--small" aria-hidden="true">MRC</span>
+            <div>
+              <p class="eyebrow">Lançamento 26/07</p>
+              <h1>Central de performance</h1>
+            </div>
+          </div>
+          <div class="header-actions">
+            <label class="period-field">
+              <span>Período</span>
+              <select data-days>
+                <option value="1">Hoje</option>
+                <option value="3">3 dias</option>
+                <option value="7" selected>7 dias</option>
+                <option value="14">14 dias</option>
+                <option value="30">30 dias</option>
+              </select>
+            </label>
+            <button class="button button--quiet" type="button" data-refresh>Atualizar</button>
+            <button class="button button--quiet" type="button" data-logout>Sair</button>
+          </div>
+        </header>
+
+        <div class="source-bar" role="status" aria-live="polite">
+          <span class="status-dot" data-source-dot></span>
+          <span data-source-status>Aguardando leitura segura…</span>
+          <span class="source-time" data-generated-at></span>
+        </div>
+
+        <section class="decision-card" data-go-no-go aria-labelledby="decision-title">
+          <div>
+            <p class="eyebrow">Go / no-go de escala</p>
+            <h2 id="decision-title" data-decision-title>Aguardando dados</h2>
+            <p data-decision-message>Os sinais técnicos serão avaliados após a atualização.</p>
+          </div>
+          <span class="decision-badge" data-decision-badge>ANALISAR</span>
+        </section>
+
+        <section aria-labelledby="kpis-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Visão executiva</p>
+              <h2 id="kpis-title">Números que orientam a decisão</h2>
+            </div>
+            <p>Fonte prioritária: eventos first-party e Supabase.</p>
+          </div>
+          <div class="kpi-grid" data-kpis></div>
+        </section>
+
+        <div class="two-column">
+          <section class="panel" aria-labelledby="funnel-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Funil auditável</p>
+                <h2 id="funnel-title">Da visita ao grupo</h2>
+              </div>
+              <span class="panel-caption">Sessões e coortes do período</span>
+            </div>
+            <ol class="funnel-list" data-funnel></ol>
+          </section>
+
+          <section class="panel" aria-labelledby="alerts-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Ação imediata</p>
+                <h2 id="alerts-title">Alertas operacionais</h2>
+              </div>
+              <span class="alert-count" data-alert-count>0</span>
+            </div>
+            <ul class="alert-list" data-alerts></ul>
+          </section>
+        </div>
+
+        <section class="panel" aria-labelledby="health-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Dev / analista</p>
+              <h2 id="health-title">Saúde técnica e mensuração</h2>
+            </div>
+            <span class="panel-caption">Metas do playbook MRC</span>
+          </div>
+          <div class="health-grid" data-health></div>
+        </section>
+
+        <section class="panel panel--wide" aria-labelledby="campaigns-title">
+          <div class="panel-heading panel-heading--wrap">
+            <div>
+              <p class="eyebrow">Otimização de mídia</p>
+              <h2 id="campaigns-title">Tabela operacional por anúncio</h2>
+            </div>
+            <p class="panel-caption">Verde escala. Amarelo observa. Vermelho pausa com histórico.</p>
+          </div>
+          <div class="table-wrap" tabindex="0" aria-label="Tabela de desempenho dos anúncios">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th><th>Campanha</th><th>ID campanha</th><th>Conjunto</th><th>ID conjunto</th><th>Anúncio</th><th>ID anúncio</th>
+                  <th>Ângulo</th><th>Formato</th><th>Gancho</th><th>Gasto</th>
+                  <th>Impressões</th><th>Freq.</th><th>Cliques</th><th>Link</th>
+                  <th>CTR link</th><th>CPC link</th><th>LPV</th><th>Leads Meta</th>
+                  <th>Leads Supabase</th><th>Redirects</th><th>Conciliação</th><th>Membros líq.</th>
+                  <th>CPL conciliado por ID</th><th>Custo/membro</th><th>Decisão</th>
+                  <th>Motivo</th><th>Mudança</th><th>Responsável</th>
+                </tr>
+              </thead>
+              <tbody data-campaigns></tbody>
+            </table>
+          </div>
+          <p class="empty-state" data-campaign-empty hidden>
+            Importe o relatório agregado da Meta para cruzar mídia e conversão first-party.
+          </p>
+        </section>
+
+        <div class="two-column two-column--operations">
+          <section class="panel" aria-labelledby="snapshot-title">
+            <p class="eyebrow">WhatsApp</p>
+            <h2 id="snapshot-title">Registrar membros do grupo</h2>
+            <p>
+              Informe o inventário visível no WhatsApp. Membros líquidos só são calculados
+              quando existem dois snapshots válidos.
+            </p>
+            <form class="operation-form" data-snapshot-form>
+              <label>Total atual <input type="number" name="total" min="0" step="1" required /></label>
+              <label>Administradores <input type="number" name="adminCount" min="0" step="1" value="0" required /></label>
+              <label>Saídas acumuladas desde o baseline <input type="number" name="reportedExits" min="0" step="1" value="0" required /></label>
+              <label class="operation-check"><input type="checkbox" name="isBaseline" /> Usar como baseline operacional</label>
+              <label>Observação sem dados pessoais <input type="text" name="note" maxlength="200" placeholder="Ex.: leitura operacional das 21h" /></label>
+              <button class="button" type="submit">Salvar snapshot</button>
+              <p class="form-status" data-snapshot-status role="status" aria-live="polite"></p>
+            </form>
+            <div class="snapshot-history" data-snapshots></div>
+          </section>
+
+          <section class="panel" aria-labelledby="import-title">
+            <p class="eyebrow">Meta Ads</p>
+            <h2 id="import-title">Importar métricas agregadas</h2>
+            <p>
+              Exporte o CSV sem nome, e-mail ou telefone e inclua data, IDs de campanha,
+              conjunto e anúncio, LPV e métricas de entrega.
+            </p>
+            <form class="operation-form" data-import-form>
+              <label class="file-field">
+                Arquivo CSV
+                <input type="file" name="file" accept=".csv,text/csv" required />
+              </label>
+              <button class="button" type="submit">Validar e importar</button>
+              <p class="form-status" data-import-status role="status" aria-live="polite"></p>
+            </form>
+          </section>
+        </div>
+
+        <section aria-labelledby="rules-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Regras fixas</p>
+              <h2 id="rules-title">Como decidir sem achismo</h2>
+            </div>
+          </div>
+          <div class="rule-grid">
+            <article class="rule-card rule-card--green">
+              <span>Escalar</span>
+              <h3>Faixa verde</h3>
+              <p>CTR link ≥ 1,8%; CPC ≤ R$ 0,80; CPL ≤ R$ 5; 3+ leads; dados conciliados e grupo medido.</p>
+              <strong>+20% a 30% após 24 h. Não editar o original.</strong>
+            </article>
+            <article class="rule-card rule-card--yellow">
+              <span>Observar</span>
+              <h3>Faixa amarela</h3>
+              <p>CTR entre 1% e 1,8%; CPL entre R$ 5 e R$ 8; amostra abaixo de 1.500 impressões.</p>
+              <strong>Manter uma janela e testar somente uma variável.</strong>
+            </article>
+            <article class="rule-card rule-card--red">
+              <span>Pausar</span>
+              <h3>Faixa vermelha</h3>
+              <p>CTR &lt; 1% com amostra; 2× CPL-alvo sem lead; CPC &gt; R$ 1,50 ou CPL &gt; R$ 8.</p>
+              <strong>Registrar o motivo e substituir por nova hipótese.</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel copy-library" aria-labelledby="copy-title">
+          <div class="panel-heading panel-heading--wrap">
+            <div>
+              <p class="eyebrow">Direção de copy por canal</p>
+              <h2 id="copy-title">Mensagem curta, contínua e rastreável</h2>
+            </div>
+            <p class="panel-caption">Reconhecimento • autoridade • oportunidade • princípios</p>
+          </div>
+          <div class="copy-grid">
+            <article>
+              <span>Anúncio — reconhecimento</span>
+              <h3>Pare de ser invisível no digital.</h3>
+              <p>Você tem conhecimento e experiência, mas poucas pessoas reconhecem o valor do que faz? No dia 26 de julho, descubra como construir autoridade na internet sem negociar seus princípios.</p>
+              <strong>Aula gratuita e online — 26 de julho.</strong>
+            </article>
+            <article>
+              <span>Anúncio — valores</span>
+              <h3>Cresça sem abandonar seus princípios.</h3>
+              <p>Você não precisa virar personagem ou vender agressivamente para crescer. Conheça uma estratégia de posicionamento e autoridade alinhada aos seus valores.</p>
+              <strong>Inscrição gratuita.</strong>
+            </article>
+            <article>
+              <span>Anúncio — mecanismo</span>
+              <h3>Conteúdo com direção gera autoridade.</h3>
+              <p>Postar mais não resolve quando sua mensagem não mostra por que você deve ser lembrado. Descubra os passos para transformar conhecimento em autoridade.</p>
+              <strong>Online — 26 de julho.</strong>
+            </article>
+            <article>
+              <span>Stories — 8 telas</span>
+              <h3>Dor → enquete → insight → convite</h3>
+              <p>“Você sabe muito, mas ainda é pouco reconhecido?” Mostre um insight curto, confirme data e gratuidade, responda uma objeção e encerre com o link rastreado.</p>
+              <strong>CTA: Quero minha vaga gratuita para 26/07.</strong>
+            </article>
+            <article>
+              <span>Retargeting</span>
+              <h3>Uma objeção por peça.</h3>
+              <p>É gratuito? É para iniciantes? Preciso aparecer todo dia? Preciso de seguidores? Consigo crescer preservando meus valores?</p>
+              <strong>Responder uma pergunta e convidar.</strong>
+            </article>
+            <article>
+              <span>Parceiros / orgânico</span>
+              <h3>Nunca enviar tráfego direto ao grupo.</h3>
+              <p>Bio, Stories, Reel, Feed e cada parceiro recebem URL própria. Medir leads confirmados, não apenas alcance.</p>
+              <strong>Página de captura → Supabase → WhatsApp.</strong>
+            </article>
+          </div>
+          <div class="utm-standard">
+            <div>
+              <p class="eyebrow">Padrão de URL</p>
+              <h3>UTMs obrigatórias</h3>
+            </div>
+            <pre><code>utm_source={{site_source_name}}
+utm_medium=paid_social
+utm_campaign={{campaign.name}}
+utm_content={{ad.name}}
+utm_term={{adset.name}}
+campaign_id={{campaign.id}}
+adset_id={{adset.id}}
+ad_id={{ad.id}}
+placement={{placement}}</code></pre>
+            <p>Os nomes mantêm a leitura humana e os campos de ID fazem a conciliação exata. Confirmar as macros na prévia e nunca aceitar <code>{{ad.id}}</code> literal no Supabase.</p>
+          </div>
+        </section>
+
+        <footer class="dashboard-footer">
+          <p>Central MRC • dados agregados • acesso restrito • sem PII</p>
+          <p data-footer-source>Aguardando fonte e horário da última atualização.</p>
+        </footer>
+      </div>
+    </main>
+
+    <script type="module" src="/src/pages/dashboard.mjs"></script>
+  </body>
+</html>

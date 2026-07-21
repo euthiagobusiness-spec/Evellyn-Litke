@@ -42,8 +42,8 @@ export function corsHeaders(request: Request): HeadersInit {
 
   return {
     "Access-Control-Allow-Origin": allowedOrigin,
-    "Access-Control-Allow-Headers": "content-type, x-client-info",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "authorization, content-type, x-client-info, x-idempotency-key, x-turnstile-token",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Max-Age": "86400",
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
@@ -63,9 +63,12 @@ export function jsonResponse(
   });
 }
 
-export async function readJsonBody(request: Request): Promise<unknown> {
+export async function readJsonBody(
+  request: Request,
+  maxPayloadBytes = MAX_PAYLOAD_BYTES,
+): Promise<unknown> {
   const declaredLength = Number(request.headers.get("content-length") ?? 0);
-  if (declaredLength > MAX_PAYLOAD_BYTES) {
+  if (declaredLength > maxPayloadBytes) {
     throw new HttpError(413, "payload_too_large");
   }
 
@@ -75,7 +78,7 @@ export async function readJsonBody(request: Request): Promise<unknown> {
   }
 
   const raw = await request.text();
-  if (new TextEncoder().encode(raw).byteLength > MAX_PAYLOAD_BYTES) {
+  if (new TextEncoder().encode(raw).byteLength > maxPayloadBytes) {
     throw new HttpError(413, "payload_too_large");
   }
 
@@ -84,6 +87,23 @@ export async function readJsonBody(request: Request): Promise<unknown> {
   } catch {
     throw new HttpError(400, "invalid_json");
   }
+}
+
+export function readBearerToken(request: Request): string | null {
+  const value = request.headers.get("authorization") ?? "";
+  const match = value.match(/^Bearer\s+(.+)$/i);
+  return match?.[1]?.trim() || null;
+}
+
+export function timingSafeEqual(left: string | null, right: string): boolean {
+  if (!left || left.length !== right.length) return false;
+  const leftBytes = new TextEncoder().encode(left);
+  const rightBytes = new TextEncoder().encode(right);
+  let mismatch = 0;
+  for (let index = 0; index < leftBytes.length; index += 1) {
+    mismatch |= leftBytes[index] ^ rightBytes[index];
+  }
+  return mismatch === 0;
 }
 
 export function getClientIp(request: Request): string {

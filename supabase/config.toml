@@ -388,6 +388,18 @@ verify_jwt = false
 [functions.track-funnel-event]
 verify_jwt = false
 
+[functions.collect-funnel-event]
+verify_jwt = false
+
+[functions.privacy-request]
+verify_jwt = false
+
+[functions.funnel-dashboard]
+verify_jwt = false
+
+[functions.process-meta-outbox]
+verify_jwt = false
+
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 

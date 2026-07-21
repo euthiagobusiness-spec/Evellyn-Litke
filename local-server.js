@@ -15,19 +15,17 @@ const pageRoutes = new Map([
   ["/upsell/", "pagina-vendas.html"],
   ["/politica-de-privacidade", "politica-de-privacidade.html"],
   ["/politica-de-privacidade/", "politica-de-privacidade.html"],
+  ["/solicitar-privacidade", "solicitar-privacidade.html"],
+  ["/solicitar-privacidade/", "solicitar-privacidade.html"],
+  ["/dashboard", "dashboard.html"],
+  ["/dashboard/", "dashboard.html"],
   ["/termos-de-uso", "termos-de-uso.html"],
   ["/termos-de-uso/", "termos-de-uso.html"],
 ]);
 
-const externalRedirects = new Map([
-  ["/obrigado", "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt"],
-  ["/obrigado/", "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt"],
-  ["/obrigado-inscricao", "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt"],
-  ["/obrigado-inscricao/", "https://chat.whatsapp.com/J6IZBsPjpgwCR8u3mEn5jt"],
-]);
-
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
+  ".avif": "image/avif",
   ".gif": "image/gif",
   ".html": "text/html; charset=utf-8",
   ".ico": "image/x-icon",
@@ -65,13 +63,6 @@ const server = http.createServer((request, response) => {
   } catch {
     response.writeHead(400, { "Content-Type": "text/plain; charset=utf-8" });
     response.end("Requisição inválida.");
-    return;
-  }
-
-  const externalRedirect = externalRedirects.get(pathname);
-  if (externalRedirect) {
-    response.writeHead(302, { Location: externalRedirect });
-    response.end();
     return;
   }
 

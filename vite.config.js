@@ -6,8 +6,10 @@ module.exports = defineConfig({
     rollupOptions: {
       input: {
         captura: path.resolve(__dirname, "index.html"),
+        dashboard: path.resolve(__dirname, "dashboard.html"),
         upsell: path.resolve(__dirname, "pagina-vendas.html"),
         privacidade: path.resolve(__dirname, "politica-de-privacidade.html"),
+        solicitarPrivacidade: path.resolve(__dirname, "solicitar-privacidade.html"),
         termos: path.resolve(__dirname, "termos-de-uso.html"),
       },
     },

@@ -8,7 +8,7 @@ Projeto único e modular com captura de leads, página de oferta e documentos le
 - `/upsell`: página de oferta
 - `/politica-de-privacidade` e `/termos-de-uso`: documentos legais
 
-As páginas não são ligadas por uma navegação principal. Depois que o Supabase confirma a gravação, o formulário encaminha o lead diretamente ao grupo oficial do WhatsApp. As antigas rotas `/obrigado` e `/obrigado-inscricao` também redirecionam para o grupo, sem manter uma página intermediária.
+As páginas não são ligadas por uma navegação principal. Depois que o Supabase confirma a gravação, o formulário encaminha o lead diretamente ao grupo oficial do WhatsApp. As antigas rotas `/obrigado` e `/obrigado-inscricao` não expõem mais o convite.
 
 ## Desenvolvimento
 

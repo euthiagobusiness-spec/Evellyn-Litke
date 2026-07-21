@@ -40,7 +40,7 @@ a {
   color: #fff7ee;
   background:
     linear-gradient(90deg, rgba(8, 4, 2, 0.94), rgba(24, 12, 7, 0.76)),
-    url("Logo MRC/Thumbnail MRC.png") center / cover no-repeat;
+    url("Logo MRC/thumbnail-mrc-optimized.webp") center / cover no-repeat;
 }
 
 .legal-nav,

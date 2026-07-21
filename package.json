@@ -12,5 +12,8 @@
   },
   "devDependencies": {
     "vite": "8.1.4"
+  },
+  "dependencies": {
+    "libphonenumber-js": "^1.13.8"
   }
 }

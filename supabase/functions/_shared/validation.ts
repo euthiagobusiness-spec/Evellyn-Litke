@@ -2,6 +2,8 @@ import { parsePhoneNumberFromString } from "libphonenumber-js/max";
 import { HttpError } from "./http.ts";
 
 export interface ValidatedLead {
+  idempotencyKey: string | null;
+  eventId: string | null;
   name: string;
   email: string;
   phone: string;
@@ -63,19 +65,43 @@ function optionalBoolean(value: unknown): boolean {
   return value === true;
 }
 
+function optionalUuid(value: unknown, field: string): string | null {
+  const result = text(value, field, 36);
+  if (!result) return null;
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(result)) {
+    throw new HttpError(422, "invalid", field);
+  }
+  return result.toLowerCase();
+}
+
 function trackingText(value: unknown, field: string, maxLength: number): string | null {
   const result = text(value, field, maxLength);
-  return result ? result.replace(/[\u0000-\u001f\u007f]/g, "") : null;
+  if (!result || /^\{\{[^{}]+\}\}$/.test(result)) return null;
+  return result.replace(/[\u0000-\u001f\u007f]/g, "");
 }
 
 function metadata(input: unknown): Record<string, string> {
   if (!input || typeof input !== "object" || Array.isArray(input)) return {};
   const value = input as Record<string, unknown>;
-  const allowed = ["locale", "timezone", "viewport", "fbc", "fbp"];
+  const limits: Record<string, number> = {
+    locale: 32,
+    timezone: 64,
+    viewport: 32,
+    fbc: 512,
+    fbp: 512,
+    campaignId: 100,
+    adsetId: 100,
+    adId: 100,
+    placement: 200,
+    landingUrl: 1000,
+  };
   return Object.fromEntries(
-    allowed.flatMap((key) => {
+    Object.entries(limits).flatMap(([key, maxLength]) => {
       const item = value[key];
-      return typeof item === "string" && item.length <= 100 ? [[key, item]] : [];
+      if (typeof item !== "string") return [];
+      const normalized = item.replace(/[\u0000-\u001f\u007f]/g, "").trim();
+      if (!normalized || normalized.length > maxLength || /^\{\{[^{}]+\}\}$/.test(normalized)) return [];
+      return [[key, normalized]];
     }),
   );
 }
@@ -83,7 +109,9 @@ function metadata(input: unknown): Record<string, string> {
 export function validateLead(input: unknown): ValidatedLead {
   const payload = requireObject(input);
   const name = text(payload.name, "name", 120, true)!;
-  const email = text(payload.email, "email", 254, true)!.toLowerCase();
+  const email = text(payload.email, "email", 254, true)!
+    .normalize("NFKC")
+    .toLowerCase();
   const phone = text(payload.phone, "phone", 40, true)!;
   const countryIso = text(payload.countryIso, "countryIso", 2, true)!.toUpperCase();
   const countryCallingCode = text(
@@ -123,6 +151,8 @@ export function validateLead(input: unknown): ValidatedLead {
   }
 
   return {
+    idempotencyKey: optionalUuid(payload.idempotencyKey, "idempotencyKey"),
+    eventId: optionalUuid(payload.eventId, "eventId"),
     name,
     email,
     phone,
@@ -156,6 +186,158 @@ export function validateLead(input: unknown): ValidatedLead {
     turnstileToken: text(payload.turnstileToken, "turnstileToken", 2048),
     website: text(payload.website, "website", 200) ?? "",
     metadata: metadata(payload.metadata),
+  };
+}
+
+const FIRST_PARTY_EVENTS: Record<string, string> = {
+  LandingView: "landing_view",
+  FormStart: "form_start",
+  ValidationError: "validation_error",
+  SubmitAttempt: "submit_attempt",
+  LeadSaved: "lead_saved",
+  RedirectStarted: "redirect_started",
+  RedirectUnique: "redirect_unique",
+  WebVital: "web_vital",
+  ApiRequest: "api_request",
+};
+
+export interface ValidatedFirstPartyEvent {
+  eventId: string;
+  eventName: string;
+  leadReference: string | null;
+  sessionId: string | null;
+  page: string | null;
+  occurredAt: string | null;
+  consentAnalytics: boolean;
+  utm: {
+    source: string | null;
+    medium: string | null;
+    campaign: string | null;
+    content: string | null;
+    term: string | null;
+  };
+  metadata: Record<string, string>;
+  durationMs: number | null;
+  website: string;
+}
+
+function eventMetadata(input: unknown): Record<string, string> {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return {};
+  const value = input as Record<string, unknown>;
+  const allowed = [
+    "viewport",
+    "locale",
+    "timezone",
+    "field",
+    "errorCode",
+    "connection",
+    "device",
+    "metric",
+    "value",
+    "rating",
+    "endpoint",
+    "httpStatus",
+    "success",
+  ];
+  return Object.fromEntries(allowed.flatMap((key) => {
+    const item = value[key];
+    if (typeof item !== "string") return [];
+    const sanitized = item.replace(/[\u0000-\u001f\u007f]/g, "").trim();
+    return sanitized && sanitized.length <= 100 ? [[key, sanitized]] : [];
+  }));
+}
+
+export function validateFirstPartyEvent(input: unknown): ValidatedFirstPartyEvent {
+  const payload = requireObject(input);
+  const publicName = text(payload.eventName, "eventName", 40, true)!;
+  const eventName = FIRST_PARTY_EVENTS[publicName];
+  if (!eventName) throw new HttpError(422, "invalid", "eventName");
+
+  const utmInput = payload.utm && typeof payload.utm === "object" && !Array.isArray(payload.utm)
+    ? payload.utm as Record<string, unknown>
+    : {};
+  const occurredAt = text(payload.occurredAt, "occurredAt", 40);
+  if (occurredAt && Number.isNaN(Date.parse(occurredAt))) {
+    throw new HttpError(422, "invalid", "occurredAt");
+  }
+  const durationMs = payload.durationMs === undefined || payload.durationMs === null
+    ? null
+    : Number(payload.durationMs);
+  if (durationMs !== null && (!Number.isInteger(durationMs) || durationMs < 0 || durationMs > 120_000)) {
+    throw new HttpError(422, "invalid", "durationMs");
+  }
+
+  return {
+    eventId: optionalUuid(payload.eventId, "eventId") ?? (() => {
+      throw new HttpError(422, "required", "eventId");
+    })(),
+    eventName,
+    leadReference: optionalUuid(payload.leadReference, "leadReference"),
+    sessionId: trackingText(payload.sessionId, "sessionId", 128),
+    page: trackingText(payload.page, "page", 500),
+    occurredAt,
+    consentAnalytics: optionalBoolean(payload.consentAnalytics),
+    utm: {
+      source: trackingText(utmInput.source, "utm.source", 200),
+      medium: trackingText(utmInput.medium, "utm.medium", 200),
+      campaign: trackingText(utmInput.campaign, "utm.campaign", 200),
+      content: trackingText(utmInput.content, "utm.content", 200),
+      term: trackingText(utmInput.term, "utm.term", 200),
+    },
+    metadata: eventMetadata(payload.metadata),
+    durationMs,
+    website: text(payload.website, "website", 200) ?? "",
+  };
+}
+
+export interface ValidatedPrivacyRequest {
+  requestType: string;
+  name: string;
+  email: string;
+  phoneE164: string | null;
+  requestedChanges: Record<string, string>;
+  website: string;
+}
+
+export function validatePrivacyRequest(input: unknown): ValidatedPrivacyRequest {
+  const payload = requireObject(input);
+  const rawRequestType = text(payload.requestType, "requestType", 20, true)!;
+  const requestType = rawRequestType === "withdrawal" ? "revocation" : rawRequestType;
+  if (!["access", "correction", "deletion", "revocation", "portability"].includes(requestType)) {
+    throw new HttpError(422, "invalid", "requestType");
+  }
+  const name = text(payload.name, "name", 120, true)!;
+  const email = text(payload.email, "email", 254, true)!.normalize("NFKC").toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new HttpError(422, "invalid", "email");
+  }
+  const phoneE164 = text(payload.phoneE164, "phoneE164", 20);
+  if (phoneE164 && !/^\+[1-9][0-9]{7,14}$/.test(phoneE164)) {
+    throw new HttpError(422, "invalid", "phoneE164");
+  }
+  const changesInput = payload.requestedChanges && typeof payload.requestedChanges === "object" && !Array.isArray(payload.requestedChanges)
+    ? payload.requestedChanges as Record<string, unknown>
+    : {};
+  const requestedChanges = Object.fromEntries(
+    ["name", "email", "phone"].flatMap((key) => {
+      const value = changesInput[key];
+      if (typeof value !== "string") return [];
+      const sanitized = value.replace(/[\u0000-\u001f\u007f]/g, "").trim();
+      return sanitized && sanitized.length <= 254 ? [[key, sanitized]] : [];
+    }),
+  );
+  const details = text(payload.details, "details", 1000);
+  if (details) requestedChanges.details = details;
+  if (payload.consentPrivacy !== true) {
+    throw new HttpError(422, "privacy_consent_required", "consentPrivacy");
+  }
+  return {
+    requestType,
+    name,
+    email,
+    phoneE164,
+    requestedChanges,
+    website: text(payload.website, "website", 200) ?? "",
   };
 }
 

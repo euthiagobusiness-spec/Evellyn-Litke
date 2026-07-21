@@ -1,5 +1,8 @@
-import { bindTrackedElements, trackEvent } from "../lib/analytics.mjs";
-import { SITE_CONFIG } from "../config.mjs";
+import {
+  bindTrackedElements,
+  setAnalyticsConsent,
+  trackEvent,
+} from "../lib/analytics.mjs";
 import { initCaptureCarousel } from "../lib/capture-carousel.mjs";
 import {
   getSelectedCountry,
@@ -13,7 +16,7 @@ import {
 } from "../lib/funnel-api.mjs";
 import { getOrCreateSessionId, saveLeadReference } from "../lib/lead-session.mjs";
 import {
-  setMetaMarketingConsent,
+  setMetaMeasurementConsent,
   trackMetaLead,
 } from "../lib/meta-pixel.mjs";
 import {
@@ -24,13 +27,23 @@ import {
 const form = document.querySelector("[data-lead-form]");
 const status = form?.querySelector(".submit-status");
 const submitButton = form?.querySelector('button[type="submit"]');
+const whatsappFallback = form?.querySelector("[data-whatsapp-fallback]");
 const countrySelect = form?.querySelector('[name="countryIso"]');
 const customDdiWrap = form?.querySelector("[data-custom-ddi]");
 const customDdiInput = form?.querySelector('[name="customDdi"]');
 const phoneInput = form?.querySelector('[name="phone"]');
-const sessionId = getOrCreateSessionId();
 let submitting = false;
 let formStarted = false;
+let activeSubmission = null;
+
+function randomUuid() {
+  return globalThis.crypto?.randomUUID?.()
+    ?? "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (character) => {
+      const random = Math.floor(Math.random() * 16);
+      const value = character === "x" ? random : (random & 0x3) | 0x8;
+      return value.toString(16);
+    });
+}
 
 function currentFields() {
   const data = new FormData(form);
@@ -84,16 +97,28 @@ function validate({ showErrors = false } = {}) {
 function attribution() {
   const query = new URLSearchParams(window.location.search);
   const read = (key) => query.get(key);
+  let safeReferrer = null;
+  try {
+    const referrer = new URL(document.referrer);
+    safeReferrer = `${referrer.origin}${referrer.pathname}`;
+  } catch {
+    // Referrer vazio ou invalido nao interfere no cadastro.
+  }
   return {
     utmSource: read("utm_source"),
-    utmMedium: read("utm_medium"),
-    utmCampaign: read("utm_campaign"),
-    utmContent: read("utm_content"),
-    utmTerm: read("utm_term"),
+    utmMedium: read("utm_medium") ?? read("placement"),
+    utmCampaign: read("utm_campaign") ?? read("campaign_id"),
+    utmContent: read("utm_content") ?? read("ad_id"),
+    utmTerm: read("utm_term") ?? read("adset_id"),
+    campaignId: read("campaign_id"),
+    adsetId: read("adset_id"),
+    adId: read("ad_id"),
+    placement: read("placement"),
     gclid: read("gclid"),
     fbclid: read("fbclid"),
-    referrer: document.referrer || null,
+    referrer: safeReferrer,
     landingPath: window.location.pathname,
+    landingUrl: `${window.location.origin}${window.location.pathname}`,
   };
 }
 
@@ -119,6 +144,10 @@ function humanError(error) {
 
 initCaptureCarousel(trackEvent);
 bindTrackedElements();
+// O formulário nasce com as duas escolhas opcionais recusadas. Isso evita
+// reutilizar uma decisão antiga enquanto a interface atual está desmarcada.
+setAnalyticsConsent(false);
+setMetaMeasurementConsent(false);
 trackEvent("PageView", { page: "captura" });
 
 if (form) {
@@ -126,6 +155,7 @@ if (form) {
   syncCountryFields();
 
   form.addEventListener("input", (event) => {
+    if (!submitting) activeSubmission = null;
     if (!formStarted) {
       formStarted = true;
       trackEvent("LeadFormStart", { page: "captura" });
@@ -138,6 +168,11 @@ if (form) {
     if (event.target?.name === "customDdi") {
       event.target.value = normalizeCallingCode(event.target.value);
     }
+    if (event.target?.name === "consentAnalytics") {
+      const granted = event.target.checked === true;
+      setAnalyticsConsent(granted);
+      setMetaMeasurementConsent(granted);
+    }
     validate();
   });
 
@@ -149,7 +184,10 @@ if (form) {
   form.addEventListener(
     "blur",
     (event) => {
-      if (event.target?.name) validate({ showErrors: true });
+      if (!event.target?.name) return;
+      // Blur valida apenas a interface. ValidationError fica reservado para
+      // uma tentativa real de envio invalida, evitando taxas acima de 100%.
+      validate({ showErrors: true });
     },
     true,
   );
@@ -158,8 +196,15 @@ if (form) {
     event.preventDefault();
     if (submitting) return;
 
+    trackEvent("LeadFormSubmit", { page: "captura" });
+
     const result = validate({ showErrors: true });
     if (!result.valid) {
+      trackEvent("ValidationError", {
+        page: "captura",
+        field: Object.keys(result.errors)[0] ?? "form",
+        code: "invalid_or_required",
+      });
       status.textContent = "Revise os campos destacados.";
       status.classList.add("is-error");
       return;
@@ -167,61 +212,87 @@ if (form) {
 
     submitting = true;
     validate();
-    const originalText = submitButton.textContent;
-    submitButton.textContent = "Salvando sua inscrição...";
+    submitButton.textContent = "Confirmando sua inscrição...";
     status.textContent = "Estamos confirmando seus dados com segurança.";
     status.classList.remove("is-error");
 
     const data = new FormData(form);
     const country = getSelectedCountry(countrySelect, data.get("customDdi"));
     const consentMarketing = data.get("consentMarketing") === "on";
+    const consentAnalytics = data.get("consentAnalytics") === "on";
+    const sessionId = consentAnalytics ? getOrCreateSessionId() : null;
+    const leadAttribution = attribution();
+    activeSubmission ??= {
+      idempotencyKey: randomUuid(),
+      eventId: randomUuid(),
+    };
     try {
       const response = await callFunction("create-lead", {
+        ...activeSubmission,
         name: result.normalized.name,
         email: result.normalized.email,
         phone: result.normalized.phoneE164,
         countryIso: country.iso,
         countryCallingCode: country.callingCode,
-        businessStage: data.get("businessStage") || null,
-        goal: data.get("goal") || null,
-        niche: data.get("niche") || null,
-        instagramHandle: data.get("instagramHandle") || null,
-        audienceSize: data.get("audienceSize") || null,
-        biggestChallenge: data.get("biggestChallenge") || null,
-        preferredContactPeriod: data.get("preferredContactPeriod") || null,
         consentPrivacy: true,
         consentMarketing,
-        consentAnalytics: false,
+        consentAnalytics,
         website: data.get("website") || "",
         sessionId,
-        ...attribution(),
+        ...leadAttribution,
         metadata: {
           locale: navigator.language,
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           viewport: `${window.innerWidth}x${window.innerHeight}`,
-          fbc: cookieValue("_fbc"),
-          fbp: cookieValue("_fbp"),
+          campaignId: leadAttribution.campaignId,
+          adsetId: leadAttribution.adsetId,
+          adId: leadAttribution.adId,
+          placement: leadAttribution.placement,
+          landingUrl: leadAttribution.landingUrl,
+          ...(consentAnalytics
+            ? { fbc: cookieValue("_fbc"), fbp: cookieValue("_fbp") }
+            : {}),
         },
       });
 
       saveLeadReference(response.leadReference);
-      setMetaMarketingConsent(consentMarketing);
-      if (consentMarketing) trackMetaLead(response.leadReference);
-      trackEvent("Lead", { page: "captura" });
-      trackEvent("WhatsAppRedirect", { page: "captura" });
+      setAnalyticsConsent(consentAnalytics);
+      setMetaMeasurementConsent(consentAnalytics);
+      // O mesmo eventId segue no Pixel e na CAPI para a deduplicacao da Meta.
+      if (consentAnalytics && response.conversionEligible !== false) {
+        trackMetaLead(response.eventId);
+      }
+      trackEvent("WhatsAppRedirect", {
+        page: "captura",
+        leadReference: response.leadReference,
+      });
       status.textContent = "Inscrição confirmada. Abrindo o grupo oficial...";
-      trackFunnelEvent("whatsapp_clicked", response.leadReference, sessionId, {
-        timeoutMs: 1_200,
-        keepalive: true,
-      }).catch(() => {
+      if (whatsappFallback) {
+        whatsappFallback.href = response.whatsappUrl || "";
+        whatsappFallback.hidden = !response.whatsappUrl;
+      }
+      trackFunnelEvent(
+        "whatsapp_clicked",
+        response.leadReference,
+        sessionId,
+        {
+          timeoutMs: 1_200,
+          keepalive: true,
+        },
+      ).catch(() => {
         // A telemetria nunca deve impedir o acesso ao grupo.
       });
-      window.location.assign(SITE_CONFIG.whatsappGroupUrl);
+      if (response.whatsappUrl) {
+        window.location.assign(response.whatsappUrl);
+      } else {
+        status.textContent = "Inscri\u00e7\u00e3o salva, mas o acesso ao grupo est\u00e1 temporariamente indispon\u00edvel.";
+        status.classList.add("is-error");
+      }
     } catch (error) {
       status.textContent = humanError(error);
       status.classList.add("is-error");
       submitting = false;
-      submitButton.textContent = originalText;
+      submitButton.textContent = "Tentar novamente";
       validate();
     }
   });
